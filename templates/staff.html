@@ -1,0 +1,78 @@
+{% extends "dashboard/dash_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="pagination" style="padding-bottom: 20px; ">
+    <span class="step-links">
+        {% if accts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ accts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
+        </span>
+
+        {% if accts.has_next %}
+            <a href="?page={{ accts.next_page_number }}">next</a>
+            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+<div class="row">
+  {% for rw in accts %}
+      <div id="myDIV" class="col-md-3 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+              <div class="col-sm-12">
+              <p class="card-title text-md-center text-xl-left"><a href="#employee{{rw.id}}" data-toggle="modal" style="text-transform: capitalize;"><h5>{{rw.fname}} {% if rw.middle_name %}{{rw.middle_name}} {% else %}{% endif %} {{rw.lname}}</h5></a></p>
+               
+              <p class="mb-0 mt-2 text-warning">{{rw.gender}}</p>
+              <p class="mb-0 mt-2 text-success">{% if rw.phone %}Phone : {{rw.phone}}{% else %}{% endif %}</p>
+            </div>
+
+          </div>
+            </div>
+          </div>
+        </div>
+   {% endfor %} 
+</div>
+
+<div class="pagination" style="padding-bottom: 20px; ">
+    <span class="step-links">
+        {% if accts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ accts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
+        </span>
+
+        {% if accts.has_next %}
+            <a href="?page={{ accts.next_page_number }}">next</a>
+            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+<!-- The Modal -->
+{% for rw in accts %}
+<div id="employee{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+       <iframe src="{% url 'staff-detail' rw.id %}" width="100%" frameborder="0" height="600"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

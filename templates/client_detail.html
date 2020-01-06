@@ -1,0 +1,52 @@
+{% extends "w3baseBlank.html" %}
+{% load staticfiles %}
+{% block content %}
+		<div class="row">
+			<div class="col-sm-6">
+				<h1>{{fname}} {% if middle_name %}{{middle_name}} {% else %}{% endif %} {{lname}}</h1>
+				<label>Client Number</label> : {{client_number}}<br />
+
+				<label>Date of Birth</label> : {{dob}}<br />
+				<label>Gender</label> : {{gender}} <br />
+				<label>Phone Number </label> : {{phone}} <br />
+				<label>Address</label> : {{address}} <br /><br />
+
+				<label>SOC Date</label> : {{soc}} <br />
+				<label>Emergency Contact</label> : {{emergency_contact}} <br />
+			</div>
+			<div class="col-sm-6" style="padding-top: 40px">
+				<a href="#client" data-toggle="modal" class="btn btn-md btn-info">Add Care Attendant</a>
+				<br /><br />
+		<table class="table table-striped table-hover" width="100%">
+	      {% for rw in caregiver %}
+	      <tr>
+	     	<td>{{rw.fname}} {{rw.lname}}</td>
+	     </tr>
+	     {% endfor %}
+	 	</table>
+			</div>
+	</div>
+	
+	
+<!-- Modal -->
+<div id="client" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+      	<form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}
+      		<input type="hidden" name="client" value="{{id}}">
+      		<input type="text" name="care_attendant" class="form-control" value="" placeholder="Care Giver Id Here!!">
+       		<input type="hidden" name="user" value="{{ request.user.id }}"><br />
+       		 <button type="submit" class="btn btn-info btn-lg">Add Care Giver </button>
+    	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

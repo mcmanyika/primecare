@@ -1,0 +1,254 @@
+{% extends "dashboard/dash_base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="pagination" style="padding-bottom: 20px; ">
+    <span class="step-links">
+        {% if accts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ accts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
+        </span>
+
+        {% if accts.has_next %}
+            <a href="?page={{ accts.next_page_number }}">next</a>
+            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<div class="row">
+  {% for rw in accts %}
+      <div id="myDIV" class="col-md-3 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+              <div class="col-sm-8">
+              <p class="card-title text-md-center text-xl-left"><a href="#staff{{rw.id}}" data-toggle="modal"><h5>{{rw.fname}} {% if rw.middle_name %}{{rw.middle_name}} {% else %}{% endif %} {{rw.lname}}</h5></a></p>
+               
+              <p class="mb-0 mt-2 text-warning">{{rw.gender}}</p>
+              <p class="mb-0 mt-2 text-success">{% if rw.phone %}Phone : {{rw.phone}}{% else %}{% endif %}</p>
+              <p class="mb-0 mt-2 text-warning">{{rw.company}}</p>
+              {% for r in last_billed %}
+                {% if r.rootid == rw.id %}
+              <p class="mb-0 mt-2 text-danger">Last Billed : {{r.billing_date}}</p>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="col-sm-4" style="font-size: 11px">
+              <a href="#Bill{{rw.id}}" data-toggle="modal">Last Billed</a> 
+              <a href="#BillingTracker{{rw.client_number}}" data-toggle="modal">Payments</a>
+            </div>
+          </div>
+            </div>
+          </div>
+        </div>
+   {% endfor %} 
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if accts.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ accts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
+        </span>
+
+        {% if accts.has_next %}
+            <a href="?page={{ accts.next_page_number }}">next</a>
+            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
+{% for rw in accts %}
+<div id="Bill{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content" style="background-color: #fff">
+      <div class="modal-body">
+        <div class="row">
+      		<div class="col-sm-12">	
+      	<form  method="post" id="billform" name="billform" action="" enctype="multipart/form-data">{% csrf_token %}
+
+      		<input type="hidden" name="rootid" value="{{rw.id}}">
+
+      	<div class="row">	
+      		<div class="col-sm-6">
+      		<label>Last Billing Date</label>
+      			<input type="date" name="billing_date" value="" class="form-control form-control-lg">
+      		</div>
+      		<div class="col-sm-6">
+      		<label>TMHP Batch Number</label>
+            <select name="batch_id" class="form-control form-control-lg">
+              <option value="No Batch Number" selected>No Batch Number</option>
+              {% for rw in dictionary %}
+              {% if rw.category == 'batch' %}
+              <option value="{{rw.header}}">{{rw.header}}</option>
+              {% endif %}
+              {% endfor %}
+            </select> 
+      		</div>
+      	</div>	
+	      	<div class="col-sm-12">		
+	       		<input type="hidden" name="user" value="{{ request.user.id }}"><br />
+	       		<button type="submit" class="btn btn-primary btn-icon-text">
+              <i class="ti-file btn-icon-prepend"></i>
+              Save
+            </button>
+       		</div>
+    	</form>
+    </div>
+  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+{% for rw in accts %}
+<div id="BillingTracker{{rw.client_number}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content" style="background-color: #fff">
+      <div class="modal-body">
+      		<div class="col-sm-12">	
+      	<form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}
+      		<input type="hidden" name="client_number" value="{{rw.client_number}}">
+
+      	<div class="row">	
+      		<div class="col-sm-4">
+      		<label><strong>Claim ID</strong></label>
+            <select name="claim_id" class="form-control form-control-md">
+              {% for rw in dictionary %}
+              {% if rw.category == 'batch' %}
+              <option value="{{rw.header}}">{{rw.header}}</option>
+              {% endif %}
+              {% endfor %}
+            </select> 
+      		</div>
+      		<div class="col-sm-4">
+      		<label> <strong>Service Date From</strong></label>
+      			<input type="date" name="service_date_from" value="" class="form-control">
+      		</div>
+      		<div class="col-sm-4">
+	      		<label> <strong>Service Date To</strong></label>
+	      			<input type="date" name="service_date_to" value="" class="form-control">
+      		</div>	
+
+          <div class="col-sm-6"><br />
+            <label> <strong>Amount Billed</strong></label>
+              <input type="number"  name="amount_billed" value="" class="form-control">
+          </div>
+
+      		<div class="col-sm-6"><br />
+	      		<label> <strong>Amount Paid</strong></label>
+	      			<input type="number" min="0.00" step="0.00" name="amount_paid" value="" class="form-control">
+      		</div>	
+
+
+      		<div class="col-sm-12"><br />
+      			<label><strong>Notes</strong></label>
+	      		<textarea name="notes" rows="10"  class="form-control">
+	      			
+	      		</textarea>
+	      	</div>
+	      	<div class="col-sm-12">	
+	      		<label>&nbsp;</label>
+	      		<select name="payment_status" class="form-control form-control-lg">
+	      			{% for rw in dictionary %}
+                {% if rw.category == 'payment_status' %}
+	      			    <option value="{{rw.header}}">{{rw.header}}</option>
+	      			  {% endif %}
+	      			{% endfor %}
+	      		</select>
+	      	</div>
+	      	<div class="col-sm-12">		
+	       		<input type="hidden" name="user" value="{{ request.user.id }}"><br />
+	       		<button type="submit" class="btn btn-primary btn-icon-text">
+              <i class="ti-file btn-icon-prepend"></i>
+              Submit
+            </button>
+            <button type="reset" class="btn btn-warning btn-icon-text">
+              <i class="ti-file btn-icon-prepend"></i>
+              Reset
+            </button>
+	       		<input type="hidden" name="rootid" value="{{rw.rootid_id}}">
+       		</div>
+       	</div>	
+    	</form>
+    </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% for r in accts %}
+<div id="billing{{r.client_number}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      	<div class="col-sm-12">
+      		<h2>{{r.fname}} {{r.lname}}</h2>
+      	</div>
+
+      	<div class="col-sm-12">
+		        	<table id="billtracking" class="table table-striped table-hover">
+		        	  <tr>
+		        	  	<th>ID</th>
+		        	  	<th>Claim ID</th>
+		        	  	<th>Service Date From</th>
+		        	  	<th>Service Date To</th>
+		        	  	<th>Billed Amount</th>
+		        	  	<th>Paid Amount</th>
+		        	  	<th></th>
+		        	  </tr>		
+				     {% for rw in BillingTracker %}
+		    			{% if rw.client_number == r.client_number %}
+				     <tr>
+				     	<td>{{rw.id}}</td>
+				     	<td>{{rw.claim_id}}</td>
+				     	<td>{{rw.service_date_from}}</td>
+				     	<td>{{rw.service_date_to}}</td>
+				     	<td>$ {{rw.amount_billed}}</td>
+				     	<td>$ {{rw.amount_paid}}</td>
+				     	<td>{% if rw.payment_status == "Verified" %}<center>
+		        	<img src="{% static 'img/green_tick.png' %}" class="img-responsive" width="20">
+		        	 {% else %}<img src="{% static 'img/red_cancel.png' %}" class="img-responsive" width="35">
+		        	 {% endif %}</center></td>
+				     </tr>
+				     {% endif %}
+		        {% endfor %}
+				 </table>
+				</div>
+				
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+{% endblock %}

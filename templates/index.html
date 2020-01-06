@@ -1,0 +1,23 @@
+{% extends "w3base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="w3-container">
+	<div class="w3-col m12">
+		<table id="myTable" class="table table-striped table-hover" width="100%">
+	      <tr>
+
+	     	<td><strong>Staff Name</strong></td>
+	     	<td><strong>Daily ID</strong></td>
+	     	<td><strong>Date</strong></td>
+	     </tr> 
+	     {% for rw in daily_recs %}
+	     <tr>
+	     	<td style="text-transform: capitalize;"><a href="{% url 'ad-detail' rw.id %}">{{rw.fname}} {{rw.lname}}</a></td>
+	     	<td style="text-transform: capitalize;">{{rw.veh_reg}}</td>
+	     	<td><a href="{% url 'ad-detail' rw.id %}">{{rw.date}}</a></td>
+	     </tr>  
+	     {% endfor %} 
+	 </table>
+	</div>
+</div>
+{% endblock %}

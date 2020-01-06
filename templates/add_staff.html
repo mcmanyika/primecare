@@ -1,0 +1,48 @@
+{% extends "mainBase.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="w3-row">
+        <div class="w3-col m12">
+            <h5>Register Account</h5>
+                <form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}
+                    <div style="padding: 5px">
+                	   <input type="text" name="fname" class="form-control" value="" placeholder="First Name">
+                    </div>
+                    <div style="padding: 5px">
+                       <input type="text" name="lname" class="form-control" value="" placeholder="Last Name">
+                    </div> 
+                    <div style="padding: 5px">
+                        <select name="gender" class="form-control">
+                            {% for rw in dictionary %}
+                                {% if rw.category == 'Gender' %}
+                                    <option value="{{rw.header}}">{{rw.header}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div style="padding: 5px">
+                       <input type="text" name="phone" class="form-control" value="" placeholder="Mobile Number">
+                    </div> 
+                    <div style="padding: 5px">
+                        <select name="account_type" class="form-control">
+                            {% for rw in dictionary %}
+                                {% if rw.category == 'Account_type' %}
+                                    <option value="{{rw.header}}">{{rw.header}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                	<input type="hidden" name="user" class="form-control" value="{{ request.user.id }}">
+                    <div style="padding: 5px">
+                        <button type="submit" class="btn btn-info btn-lg">Add new staff</button>
+                    </div>
+                    <div style="height: 50px">   
+                       &nbsp;
+                    </div>
+              </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "w3baseBlank.html" %}
+{% load staticfiles %}
+{% block content %}
+	{% for rw in object %}
+	{{rw.fname}}
+	{% endfor %}
+{% endblock %}

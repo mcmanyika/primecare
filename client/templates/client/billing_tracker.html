@@ -1,0 +1,136 @@
+{% extends "w3baseBlank.html" %}
+{% load staticfiles %}
+{% block content %}
+
+
+<div class="row" >
+	<div class="col-md-12" style="padding-top: 40px">
+		<table id="myTable" class="table table-striped table-hover" width="100%">
+	      <tr>			
+		        	  	<th>Client Number</th>
+		        	  	<th>Full Name</th>
+		        	  	<th>Service Date From</th>
+		        	  	<th>Service Date To</th>
+		        	  	<th>Billed Amount</th>
+		        	  	<th>Paid Amount</th>
+		        	  </tr> 
+	     {% for rw in BillingTracker %}
+				     <tr>
+				     	<td>{{rw.client_number}}</td>
+				     	<td><a href="{% url 'edit-billing-tracker'  rw.id %}">{{rw.fname}} {{rw.lname}}</td>
+				     	<td>{{rw.service_date_from}}</td>
+				     	<td>{{rw.service_date_to}}</td>
+				     	<td>{{rw.amount_billed}}</td>
+				     	<td>{{rw.amount_paid}}</td>
+				     </tr>
+		        {% endfor %} 
+	 </table>
+	</div>
+</div>
+{% for rw in accts %}
+<div id="BillingTracker{{rw.client_number}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+    	<div class="modal-header">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+      <div class="modal-body">
+      	<form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}
+      		<input type="hidden" name="client_number" value="{{rw.client_number}}">
+      		<div class="col-sm-6">
+      		<label> Payment Advice Date</label>
+      			<input type="date" name="payment_advice_date" value="" class="form-control">
+      		</div>
+      		<div class="col-sm-6">	
+      			<label>&nbsp;</label>
+	      		<select name="present_absent_on_batch" class="form-control form-control-lg">
+	      			<option value="">Present On Batch</option>
+	      			<option value="Yes">Yes</option>
+	      			<option value="No">No</option>
+	      		</select>	
+      		</div>
+      		<div class="col-sm-6">
+	      		<label> Billed Until Date</label>
+	      			<input type="date" name="billed_until_date" value="" class="form-control">
+      		</div>
+      		<div class="col-sm-6">
+	      		<label> Start Billing From</label>
+	      			<input type="date" name="start_billing_from_date" value="" class="form-control">
+      		</div>	
+      		<div class="col-sm-12">
+      			<label>&nbsp;</label>
+	      		<textarea name="previous_denial_reason" rows="10"  class="form-control" placeholder="">
+	      			Previous denial reasons
+	      		</textarea>
+	      	</div>
+	      	<div class="col-sm-12">	
+	      		<label>&nbsp;</label>
+	      		<select name="status" class="form-control form-control-lg">
+	      			{% for rw in dictionary %}
+	      			{% if rw.category == 'VisitTracker' %}
+	      			<option value="{{rw.header}}">{{rw.header}}</option>
+	      			{% endif %}
+	      			{% endfor %}
+	      		</select>
+	      	</div>
+	      	<div class="col-sm-12">		
+	       		<input type="hidden" name="user" value="{{ request.user.id }}"><br />
+	       		<button type="submit" class="btn btn-info btn-lg">Save </button>
+	       		<input type="hidden" name="rootid" value="{{rw.rootid_id}}">
+       		</div>
+    	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% for r in accts %}
+<div id="billing{{r.client_number}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      	<div class="col-sm-12">
+      		<h2>{{r.fname}} {{r.lname}}</h2>
+      	</div>
+
+      	<div class="col-sm-12">
+		        	<table id="billtracking" class="table table-striped table-hover" width="100%">
+		        	  <tr>
+		        	  	<th>ID</th>
+		        	  	<th>Payment advice date</th>
+		        	  	<th>Present / absent on batch</th>
+		        	  	<th>Billed until date</th>
+		        	  	<th>Start billing from date</th>
+		        	  	<th></th>
+		        	  </tr>		
+				     {% for rw in BillingTracker %}
+		    			{% if rw.client_number == r.client_number %}
+				     <tr>
+				     	<td>{{rw.id}}</td>
+				     	<td>{{rw.payment_advice_date}}</td>
+				     	<td>{{rw.present_absent_on_batch}}</td>
+				     	<td>{{rw.billed_until_date}}</td>
+				     	<td>{{rw.start_billing_from_date}}</td>
+				     	<td>{% if rw.status == "Verified" %}<center>
+		        	<img src="{% static 'img/green_tick.png' %}" class="img-responsive" width="20">
+		        	 {% else %}<img src="{% static 'img/red_cancel.png' %}" class="img-responsive" width="35">
+		        	 {% endif %}</center></td>
+				     </tr>
+				     {% endif %}
+		        {% endfor %}
+				 </table>
+				</div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

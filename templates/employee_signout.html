@@ -1,0 +1,29 @@
+{% extends "w3baseBlank.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="w3-row centered">
+        <div class="w3-col m12">
+            <h5>Employee Sign Out</h5>
+                <form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}
+                    
+                    <div style="padding: 5px">
+                	   <input type="text" name="Daily_Logout_ID" class="form-control input-lg" value="" placeholder="Unique Log Out Number">
+                    </div>
+                    
+                    <div style="padding: 5px">
+                       <input type="text" name="PatientID" class="form-control input-lg" value="" placeholder="Client Number">
+                    </div>
+                    
+                	<input type="hidden" name="user" class="form-control" value="{{ request.user.id }}">
+                    <div style="padding: 5px">
+                        <button type="submit" class="btn btn-info btn-lg">Save</button>
+                    </div>
+                    <div style="height: 50px">   
+                       &nbsp;
+                    </div>
+              </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="theme-color" content="#f44336">
+		<title>KDMedlink Management System</title>
+		<link rel="stylesheet" href="{% static 'css/framework7.css' %}">
+		<link rel="stylesheet" href="{% static 'css/icons.css' %}">
+		<link rel="stylesheet" href="{% static 'css/app.css' %}">
+		<link rel="apple-touch-icon" href="img/f7-icon-square.png">
+		<link rel="icon" href="img/f7-icon.png">
+	</head>
+	<body class="color-theme-pink">
+		<div id="app">
+			<div class="statusbar"></div>
+			<div class="panel panel-left panel-cover">
+				<div class="page">
+					<div class="page-content">
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-right panel-cover panel-filter">
+				<div class="navbar"><div class="navbar-inner sliding">
+					<div class="title">Filter</div></div>
+				</div>
+				<div class="page">
+					<div class="page-content">
+						<div class="block">
+							<div class="list no-hairlines">
+								<ul>
+									<li class="item-content item-input">
+										<div class="item-inner">
+											<div class="item-input-wrap">
+												<input placeholder="Enter a keyword" class="" type="text">
+												<span class="input-clear-button"></span>
+											</div>
+										</div>
+									</li>
+									<li class="item-content item-input">
+										<div class="item-inner">
+											<div class="item-input-wrap input-dropdown-wrap">
+												<select class="input-with-value">
+													<option value="cat1">Electronics</option>
+													<option value="cat2">Women's Clothes</option>
+												</select>
+											</div>
+										</div>
+									</li>
+									<li class="item-content item-input">
+										<div class="item-inner">
+											<div class="item-input-wrap input-dropdown-wrap">
+												<select class="input-with-value">
+													<option value="loc1">Location 1</option>
+													<option value="loc2">Location 2</option>
+												</select>
+											</div>
+										</div>
+									</li>
+									<li class="item-content item-input">
+										<div class="item-inner">
+											<div class="item-input-wrap">
+											
+												<div class="item-price-detail">
+													<p>Item price</p>
+													<p>
+														<span class="price-min">100$</span>
+														 - 
+														<span class="price-max">500$</span>
+													</p>
+												</div>
+												
+												<div class="range-price range-slider range-slider-init" data-dual="true" data-min="0" data-max="500" data-step="10" data-value-left="100" data-value-right="500"></div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<button class="col button button-fill color-black">Apply Filter</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="view view-main view-init ios-edges" >
+				<div class="page no-navbar">
+				
+					<div class="toolbar tabbar tabbar-labels">
+						<div class="toolbar-inner">
+							<a href="" class="tab-link  external">
+								<i class="material-icons">Menu</i>
+							</a>
+						</div>
+					</div>
+	
+					<div class="page-content">
+						<div class="block block-no-padding">
+							{% block content %}
+							
+							{% endblock content %}
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		<script src="{% static 'js/framework7.min.js' %}"></script>
+		<script src="{% static 'js/routes.js' %}"></script>
+		<script src="{% static 'js/app.js' %}"></script>
+	</body>
+</html>

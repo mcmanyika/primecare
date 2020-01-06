@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+ {% block content %}
+    
+ <form  method="post" name="img_form" id="img_form"  action="" enctype="multipart/form-data">{% csrf_token %}
+ 	<div class="col-md-12" style="height: 900px"> 
+	<div class="col-md-12" style="padding-bottom: 25px">
+
+	 		<input type="hidden" name="tracker" value="{{user.id}}">
+	 	<select name="gender" class="form-control">
+	 		<option>Choose Gender</option>
+	 		{% for rw in rw %}
+	 			{% if rw.category == 'gender' %}
+	 				<option value="{{rw.name}}">{{rw.name}}</option>
+	 			{% endif%}
+	 		{% endfor %}
+	 	</select>
+	</div>
+	<div class="col-md-12" style="padding-bottom: 25px">
+		<input type="text" name="phone" value="" placeholder="Phone" class="form-control">
+	</div>
+ 	<div class="col-md-12" style="padding-bottom: 25px">
+	 	<select name="zone" class="form-control">
+	 		<option>Choose Zone</option>
+	 		{% for rw in rw %}
+	 			{% if rw.category == 'zone' %}
+	 				<option value="{{rw.name}}">{{rw.name}}</option>
+	 			{% endif%}
+	 		{% endfor %}
+	 	</select>
+	 </div>
+	 <div class="col-md-12" style="padding-bottom: 25px">
+	 	<select name="department" class="form-control">
+	 		<option>Choose Department</option>
+	 		<option value="no department">No Department</option>
+	 		{% for rw in rw %}
+	 			{% if rw.category == 'department' %}
+	 				<option value="{{rw.name}}">{{rw.name}}</option>
+	 			{% endif%}
+	 		{% endfor %}
+	 	</select>
+	 </div>
+	 <div class="col-md-12" style="padding-bottom: 25px">
+        <select name="member_status" class="form-control form-control-sm">
+              <option>Membership Status</option>
+          {% for rw in rw %}
+            {% if rw.category == 'member_status' %}
+              <option value="{{rw.name}}">{{rw.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>  
+
+	 <div class="col-md-12" style="padding-bottom: 25px">
+	 	<textarea  name="how_you_know_us" rows="5"  class="form-control" placeholder="How did you know about us"></textarea>
+	</div>
+	<div class="col-md-12" style="padding-bottom: 25px">
+		<textarea  name="part_you_enjoyed" rows="5"  class="form-control" placeholder="Which part of the service did you enjoy"></textarea>
+	</div>
+	<div class="col-md-12" style="padding-bottom: 5px">
+		<textarea  name="recomendations" rows="5"  class="form-control" placeholder="Your Recomendations"></textarea>
+
+	</div>
+
+	 <div class="col-md-12">	
+	    <input type="hidden" name="rootid" value="{{user.id}}">
+	    <input type="hidden" name="access_level" value="1"><br />
+		<button type="submit" class="btn btn-lg btn-info">Save Information</button>
+	</div>	
+	</div>
+</form>
+
+{% endblock %}

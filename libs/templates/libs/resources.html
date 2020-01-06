@@ -1,0 +1,72 @@
+{% extends "dashboard/dash_base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style type="text/css">
+	.portfolio-grid figure {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    width: 100%;
+    background: 
+    #8f8c8c;
+    text-align: center;
+    cursor: pointer;
+}
+</style>
+<div class="row">
+    <div class="col-12">
+    	<a href="#addDoc" data-toggle="modal" class="btn btn-outline-secondary btn-sm">Add Document</a><br /><br />
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="row portfolio-grid">
+              	{% for rw in resources %}
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
+                  <figure class="effect-text-in">
+                    <img src="{% static 'img/pdf2.png' %}" alt="image"/>
+                    <figcaption>
+                      <h4><a href="{% static 'img/' %}{{rw.document}}" target="_blank" style="color: #fff !important">{{rw.name}}</a></h4>
+                      <p>{{rw.description}}</p>
+                    </figcaption>
+                  </figure>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div id="addDoc" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+      	<div class="col-12"  style="background-color: #fff !important; padding: 20px; ">
+      		<form  method="post" name="form"  action="" enctype="multipart/form-data">{% csrf_token %}	
+      			<div class="col-sm-12">
+		            {{ form.name|as_crispy_field }}
+	            </div>
+          		<div class="col-sm-12">
+		            {{ form.description|as_crispy_field }}
+	            </div>
+	            <div class="col-sm-12">
+		            {{ form.document|as_crispy_field }}
+	            </div>
+	            <div class="col-sm-12">
+		            {{ form.category|as_crispy_field }}
+	            </div>
+	            <div class="col-sm-12">
+          			<button type="submit" class="btn btn-info btn-md">Upload Document </button>
+            		<input type="hidden" name="user" class="form-control" value="{{ request.user.id }}">
+            	</div>	
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

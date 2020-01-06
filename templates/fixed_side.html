@@ -1,0 +1,194 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#f44336">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
+    <title>KDMedlink Management System</title>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 220px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 15px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  /*color: #f1f1f1;*/
+}
+
+.main {
+  margin-left: 220px; /* Same as the width of the sidenav */
+  font-size: 15px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+.nav > li  a:focus, .nav  li a:hover {
+          text-decoration: none;
+          background-color: 
+          #4240408c;
+          min-width: 180px;
+      }
+</style>
+</head>
+<body>
+
+<div class="sidenav">
+   {% if request.user.is_authenticated %}
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+              <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-1" class="collapse">
+                        <li><a href="{% url 'daily-logs' %}"><i class="fa fa-angle-double-right"></i> Daily Record</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-users"></i> Clients<i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-2" class="collapse">
+                        <li><a href="{% url 'client' %}"><i class="fa fa-angle-double-right"></i> All Clients</a></li>
+                        <li><a href="{% url 'add-client' %}"><i class="fa fa-angle-double-right"></i> Add Clients</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  Staff <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-3" class="collapse">
+                        <li><a href="{% url 'staff' %}"><i class="fa fa-angle-double-right"></i> All Staff</a></li>
+                        <li><a href="{% url 'add-staff' %}"><i class="fa fa-angle-double-right"></i> New Employee</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-4"><i class="fa fa-fw fa-money"></i> Billing Tracking <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-4" class="collapse">
+                      <li><a href="{% url 'all-claims' %}"><i class="fa fa-angle-double-right"></i> All Claims</a></li>
+                        <li><a href="{% url 'billing-tracker' %}"><i class="fa fa-angle-double-right"></i> Denied Claims</a></li>
+                        <!-- <li><a href=""><i class="fa fa-angle-double-right"></i> New Employee</a></li> -->
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-5"><i class="fa fa-fw fa-file"></i> Resources <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-5" class="collapse">
+                        <li><a href="{% url 'billing-tracker' %}"><i class="fa fa-angle-double-right"></i> Staff Documents</a></li>
+                        <!-- <li><a href=""><i class="fa fa-angle-double-right"></i> New Employee</a></li> -->
+                    </ul>
+                </li>
+                <li>
+                    <a href="faq"><i class="fa fa-fw fa-cog"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+
+    {% endif %}
+</div>
+
+<div class="main">
+  <div class="" style="padding: 10px; float: right">
+        {% if request.user.is_authenticated %} 
+          <a href="" class="link">Hi {{ request.user.username }} </a> | <a href="{% url 'logout' %}" class="link">Logout</a>
+          {% else %}
+          <a href="" class="link">Hi Guest </a> | <a href="{% url 'login' %}" class="link">Login </a>
+           {% endif %}
+
+      </div>
+    <div class="col-sm-12"> 
+      <div class="row" style="padding: 15px">
+      {% block search %}
+        <input class="form-control form-control-lg" type="text" placeholder="Search for names.." id="myInput" onkeyup="myFunction()">
+      {% endblock search %}
+    </div>
+  {% block content %}
+      
+        
+      
+    {% endblock content %}
+</div>
+
+ {% for rw in accts %}
+<div id="staff{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+          <iframe src="{% url 'client-detail' rw.id %}" width="100%" frameborder="0" height="600"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+
+    <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "200px";
+      document.getElementById("main").style.marginLeft = "200px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+    }
+    </script>
+
+
+  <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>  
+</body>
+</html> 

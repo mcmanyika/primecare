@@ -1,0 +1,193 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, viewport-fit=cover">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="theme-color" content="#f44336">
+		<meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
+		<title>KDMedlink Management System</title>
+		<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet"> -->
+		<link rel="stylesheet" href="{% static 'css/w3.css' %}">
+		<link rel="stylesheet" href="{% static 'css/app.css' %}">
+		<link rel="stylesheet" href="{% static 'css/icons.css' %}">
+		<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="apple-touch-icon" href="img/f7-icon-square.png">
+		
+
+		<link rel="icon" href="img/f7-icon.png">
+		<style>
+			.link_btn {
+				min-width: 130px
+			}
+			.link {
+				text-transform: capitalize; 
+				text-decoration: none;
+				font-size: 11px;
+			}
+			.item-infos a {
+				font-size: 10px;
+				text-decoration: none !important;
+			}
+
+			.btmline {
+				border-bottom-style: solid;
+				border-bottom-width: 4px;
+				border-bottom-color: #e2a71fcf;  
+			}
+
+			.w3-display-topright {
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    background-color: #ddd;
+			}
+			.listrow:hover {
+				background-color: #ccc;
+
+			}
+
+			.btmfooter {
+			  position: fixed;
+			  left: 0;
+			  bottom: 0;
+			  width: 100%;
+			  background-color: #efefefe6;
+			  color: white;
+			  text-align: center;
+			  padding: 20px;
+			}
+		</style>
+	</head>
+	<body>
+	 <!-- Sidebar -->
+	<div class="w3-sidebar w3-bar-block w3-white w3-animate-left" style="display:none;z-index:4; padding: 10px;" id="mySidebar">
+	  <button class="w3-bar-item w3-button right" onclick="w3_close()"><strong>CLOSE</strong></button>
+	  {% if request.user.is_authenticated %}
+	  <div class="w3-row" style="padding: 10px 0; ">
+	  	<div class="w3-container" style="padding: 10px 20px 10px 0px; ">
+	  		<div>
+	  			<a href="{% url 'daily-logs' %}" class="btn btn-sm btn-info link_btn">Daily Record</a>
+	  		</div>
+	  		<div style="padding-top: 3px">
+	  			<a href="{% url 'add-staff' %}" class="btn btn-sm btn-default link_btn">New Employee</a>
+	  		</div>
+	  		<div style="padding-top: 3px">
+	  			<a href="{% url 'client' %}" class="btn btn-sm btn-default link_btn">Clients</a>
+	  		</div>
+	  		<div style="padding-top: 3px">
+	  			<a href="{% url 'add-client' %}" class="btn btn-sm btn-default link_btn">Add Clients</a>
+	  		</div>
+	  		<div style="padding-top: 3px">
+	  			<a href="{% url 'staff' %}" class="btn btn-sm btn-default link_btn">Staff</a>
+	  		</div>
+	  		<div style="padding-top: 3px">
+	  			<a href="{% url 'billing-tracker' %}" class="btn btn-sm btn-default link_btn">Billing Tracker</a>
+	  		</div>
+	  	</div>
+	  </div>
+	  {% endif %}
+	  <div class="w3-row">
+	  <strong></strong>
+	  {% for rw in categories %}
+	  <a href="{% url 'list-by-category' rw.id %}" class="w3-bar-item w3-button">{{rw.name}}</a>
+	  {% endfor %}
+		</div>
+
+	</div>
+
+	<!-- Overlay -->
+	<div class="w3-overlay" onclick="w3_close()" style="cursor:pointer"></div>
+	<div class="w3-row btmline">	
+		<div style="float: right;">
+		<!-- Page content -->
+		<button class="w3-button w3-xxlarge" onclick="w3_open()">&#9776;</button>
+	</div>
+	
+		<div style="float: right;  padding: 15px">
+		{% if request.user.is_authenticated %}
+	        <a href="" class="link">Hi {{ request.user.username }} </a> | <a href="{% url 'logout' %}" class="link">Logout</a>
+	        {% else %}
+	        <a href="" class="link">Hi Guest </a> | <a href="{% url 'login' %}" class="link">Login</a>
+	         {% endif %}
+	  </div>      
+	</div>
+          
+	<div class="w3-container" style="padding-top: 15px;">
+		<div class="w3-container">
+			<div class="w3-col m12">
+		<input class="w3-input w3-border w3-padding" type="text" placeholder="Search for names.." id="myInput" onkeyup="myFunction()"><br />
+		{% block content %}
+			  
+			
+		{% endblock content %}
+		
+	</div>
+</div>
+	</div>
+
+<!-- The Modal -->
+{% for rw in staff %}
+<div id="{{rw.id}}" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick="document.getElementById('{{rw.id}}').style.display='none'"
+      class="w3-button w3-display-topright">&times;</span>
+      <iframe src="{% url 'staff-detail' rw.id %}" frameborder='0' width="100%" height="500"></iframe>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% for rw in client %}
+<div id="{{rw.id}}" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick="document.getElementById('{{rw.id}}').style.display='none'"
+      class="w3-button w3-display-topright">&times;</span>
+      <iframe src="{% url 'client-detail' rw.id %}" frameborder='0' width="100%" height="500" ></iframe>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+  
+	<script>
+	function w3_open() {
+	  document.getElementById("mySidebar").style.display = "block";
+	  document.getElementById("myOverlay").style.display = "block";
+	}
+
+	function w3_close() {
+	  document.getElementById("mySidebar").style.display = "none";
+	  document.getElementById("myOverlay").style.display = "none";
+	}
+	</script> 	
+
+	<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>		
+	</body>
+</html>

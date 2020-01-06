@@ -1,0 +1,32 @@
+{% extends "w3baseBlank.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+ {% block content %}
+        <div class="w3-row">
+            <div class="w3-col m4">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="w3-row">
+                            <div class="w3-col m6">
+                               Already a member  <a href="{% url 'login' %}">Click here</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="w3-col m12">
+                                    <form method="post">{% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit" class="btn btn-info btn-lg">Sign up</button>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

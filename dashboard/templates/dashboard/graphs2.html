@@ -1,0 +1,65 @@
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>JustDo Admin</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'vendors/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'vendors/css/c3.min.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'vendors/css/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="../../../../images/favicon.png" />
+</head>
+
+<body>
+      <!-- partial -->
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Pie chart</h4>
+                  <div id="c3-pie-chart"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Donut chart</h4>
+                  <div id="c3-donut-chart"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="{% static 'vendors/js/d3.min.js' %}"></script>
+  <script src="{% static 'vendors/js/c3_c3.js' %}"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{% static 'vendors/js/off-canvas.js' %}"></script>
+  <script src="{% static 'vendors/js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'vendors/js/template.js' %}"></script>
+  <script src="{% static 'vendors/js/settings.js' %}"></script>
+  <script src="{% static 'vendors/js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'vendors/js/c3.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>

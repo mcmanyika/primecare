@@ -1,0 +1,26 @@
+{% extends "w3base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="w3-row">
+	<div class="w3-col m12">
+		<table id="myTable" class="table table-striped table-hover" width="100%">
+	      <tr>
+	      	<td><strong>ID</strong></td>
+	     	<td><strong>Full Name</strong></td>
+	     	<td><strong>Gender</strong></td>
+	     	<td><strong>Phone</strong></td>
+	     </tr> 
+	     {% for rw in client %}
+	     <tr>
+	     	<td>{{rw.id}}</td>
+	     	<td style="text-transform: capitalize;"><a onclick="document.getElementById('{{rw.id}}').style.display='block'">{{rw.fname}} {% if rw.middle_name %}{{rw.middle_name}} {% else %}{% endif %} {{rw.lname}}</a></td>
+	     	<td style="text-transform: capitalize;">{{rw.gender}}</td>
+	     	<td style="text-transform: capitalize;">{{rw.phone}}</td>
+	     	
+	     </tr>  
+	     {% endfor %} 
+	 </table>
+	</div>
+</div>
+
+{% endblock %}

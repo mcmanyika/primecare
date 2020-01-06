@@ -1,0 +1,27 @@
+{% extends "w3base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="w3-container">
+	<div class="w3-row">
+		<h5>Trending Ads</h5>
+	</div>
+	{% for rw in products %}
+<hr>
+<div class="w3-cell-row">
+  <div class="w3-cell" style="width:30%">
+    {% if rw.img %}<a href="{% url 'ad-detail' rw.id %}"><img src="{% static 'img/' %}{{rw.img}}" class="w3-image w3-padding"></a>
+	{% else %}
+	{% endif %}
+  </div>
+  <div class="w3-cell w3-container">
+    <div class="item-category" style="text-transform: capitalize;">{{rw.category}}</div>
+	<div class="item-title"><a href="{% url 'ad-detail' rw.id %}">{{rw.name}}</a></div>
+	<div class="item-infos">US ${{rw.price}}</div>
+  </div>
+</div>
+{% endfor %}
+<div class="w3-row" style="height: 80px">
+		&nbsp;
+	</div> 
+</div>
+{% endblock %}
