@@ -1,0 +1,16 @@
+{% extends "survey/base.html" %} {% load static %} {% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+  <div id="regForm">
+    If you answered Yes to any of the questions above get in contact with the
+    Administrator at 214-560-8247 or Office manager on 817-676-8416 immediately
+    for further instructions.<br />
+    <p>
+      <a href="{% url 'logout' %}" class="btn btn-lg btn-success"
+        >Click To Exit</a
+      >
+    </p>
+  </div>
+</div>
+{% endblock %}

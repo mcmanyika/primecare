@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -33,8 +33,21 @@
 </div>
 <div class="row" style="padding-top: 15px">
    <div class="col-md-6">
-     <div id="linechart" style="height: 370px"></div>
+      <table id="myTable" class="table table-striped table-hover" width="100%">
+          <tr>          
+                        <th>Full Name</th>  
+                        <th>Timestamp</th>
+                      </tr> 
+         {% for rw in covid %}
+                     <tr>
+                        <td><a href="#BillingTracker{{rw.id}}" data-toggle="modal">{{rw.fname}} {{rw.lname}}</a></td>
+                        <td><a href="#BillingTracker{{rw.id}}" data-toggle="modal">{{rw.timestamp}}</a></td>
+                     </tr>
+                {% endfor %} 
+     </table>
     </div>
+
+
     <div class="col-sm-6">
        <table id="myTable" class="table table-striped table-hover" width="100%">
           <tr>          

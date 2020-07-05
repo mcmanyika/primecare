@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Covid</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% include 'survey/head.html' %}
+  </head>
+  <body>
+    <div class="mobile-container">
+      <!-- Top Navigation Menu -->
+      <div class="topnav">
+        <a href="#home" class="active">Primecare Services</a>
+        <div id="myLinks">
+          <a href="{% url 'success' %}">Contact Us</a>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+
+      {% block content %} {% endblock %} {% include 'survey/scripts.html' %}
+    </div>
+  </body>
+</html>

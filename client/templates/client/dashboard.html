@@ -1,5 +1,5 @@
 {% extends "dashboard/dash_base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block content %}
   <div class="row">
             <div class="col-md-3 grid-margin stretch-card">
@@ -52,7 +52,7 @@
             </div>
           </div>
 
-{% include 'dashboard/highchart.html' %}
+{% include 'dashboard/highchart.html' %} 
  
 {% for rw in accts %}
 <div id="Bill{{rw.client_number}}" class="modal fade" role="dialog">

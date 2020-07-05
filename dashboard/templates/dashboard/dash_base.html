@@ -1,339 +1,399 @@
-{% load staticfiles %}
-{% load crispy_forms_tags %}
+{% load static %} {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Primecare Link Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="{% static 'dash/css/icons.css' %}">
-  <link rel="stylesheet" href="{% static 'dash/css/base.css' %}">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="{% static 'dash/css/style.css' %}">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../../images/favicon.png" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-  $("#navbar-search-input").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myDIV *").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
-  <style>
-    .modal-content {
-    background-color: #ffffff21;
-    }
-  </style>
-</head>
-<body class="sidebar-icon-only sidebar-dark">
-  <div class="container-scroller">
-    <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row navbar-dark">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="{% url 'main-dash' %}"><img src="{% static 'img/logo.png' %}" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="{% url 'main-dash' %}"><img src="{% static 'img/logo.png' %}" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="ti-layout-grid2"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                <span class="input-group-text" id="search">
-                  <i class="ti-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" id="navbar-search-input"  onkeyup="myFunction()" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <i class="ti-user mx-2"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item" href="{% url 'logout' %}">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="#">
-              <i class="ti-more"></i>
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="ti-layout-grid2"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-      
-      <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close ti-close"></i>
-        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="add-items d-flex px-3 mb-0">
-              <form class="form w-100">
-                <div class="form-group d-flex">
-                  <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
-                  <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task">Add</button>
-                </div>
-              </form>
-            </div>
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Team review meeting at 3.00 PM
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Prepare for presentation
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li>
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox">
-                      Resolve all the low priority tickets due today
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Schedule meeting for next week
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-                <li class="completed">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="checkbox" type="checkbox" checked>
-                      Project review
-                    </label>
-                  </div>
-                  <i class="remove ti-close"></i>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- To do section tab ends -->
-         
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Primecare Link Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'dash/css/icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'dash/css/base.css' %}" />
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'dash/css/style.css' %}" />
+    <!-- endinject -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#navbar-search-input").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("#myDIV *").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+    </script>
+    <style>
+      .modal-content {
+        background-color: #ffffff21;
+      }
+    </style>
+  </head>
+  <body class="sidebar-icon-only sidebar-dark">
+    <div class="container-scroller">
+      <!-- partial:partials/_navbar.html -->
+      <nav
+        class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row navbar-dark"
+      >
+        <div
+          class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
+        >
+          <a class="navbar-brand brand-logo mr-5" href="{% url 'main-dash' %}"
+            ><img src="{% static 'img/logo.png' %}" class="mr-2" alt="logo"
+          /></a>
+          <a class="navbar-brand brand-logo-mini" href="{% url 'main-dash' %}"
+            ><img src="{% static 'img/logo.png' %}" alt="logo"
+          /></a>
         </div>
-      </div>
-      <!-- partial -->
-      <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          {% for rw in url %}
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="{{rw.toggle}}" href="#ui-basic-{{rw.id}}" aria-expanded="false" aria-controls="ui-basic">
-              <i class="{{rw.icon}} menu-icon"></i>
-              <span class="menu-title">{{rw.header}}</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic-{{rw.id}}">
-              <ul class="nav flex-column sub-menu">
-                
-                {% for r in sub_url %}
-                  {% if r.rootid_id == rw.id %}
-                  {% if r.toggle == 'modal' %}
-                    <li class="nav-item"> <a class="nav-link" href="{{r.page_type}}{{r.slug}}" data-toggle="{{r.toggle}}">{{r.title}}</a></li>
-                   {% else %}
-                   <li class="nav-item"> <a class="nav-link" href="{{r.url}}">{{r.title}}</a></li>
-                    {% endif %}
-                    {% else %}
-                  {% endif %}  
-                {% endfor %}
-              </ul>
-            </div>
-          </li>
-          {% endfor %}
-
-          <!-- <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
-              <i class="ti-view-list menu-icon"></i>
-              <span class="menu-title">Resources</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-advanced">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dragula.html">Dragula</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/clipboard.html">Clipboard</a></li>
-              </ul>
-            </div>
-          </li> -->
-          
-
-        </ul>
+        <div
+          class="navbar-menu-wrapper d-flex align-items-center justify-content-end"
+        >
+          <button
+            class="navbar-toggler navbar-toggler align-self-center"
+            type="button"
+            data-toggle="minimize"
+          >
+            <span class="ti-layout-grid2"></span>
+          </button>
+          <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item nav-search d-none d-lg-block">
+              <div class="input-group">
+                <div
+                  class="input-group-prepend hover-cursor"
+                  id="navbar-search-icon"
+                >
+                  <span class="input-group-text" id="search">
+                    <i class="ti-search"></i>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="navbar-search-input"
+                  onkeyup="myFunction()"
+                  placeholder="Search now"
+                  aria-label="search"
+                  aria-describedby="search"
+                />
+              </div>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right">
+            <li class="nav-item nav-profile dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                data-toggle="dropdown"
+                id="profileDropdown"
+              >
+                <i class="ti-user mx-2"></i>
+                <span class="count"></span>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                aria-labelledby="profileDropdown"
+              >
+                <a class="dropdown-item">
+                  <i class="ti-settings text-primary"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="{% url 'logout' %}">
+                  <i class="ti-power-off text-primary"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+            <li class="nav-item nav-settings d-none d-lg-flex">
+              <a class="nav-link" href="#">
+                <i class="ti-more"></i>
+              </a>
+            </li>
+          </ul>
+          <button
+            class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+            type="button"
+            data-toggle="offcanvas"
+          >
+            <span class="ti-layout-grid2"></span>
+          </button>
+        </div>
       </nav>
       <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-5 mb-4 mb-xl-0">
-                  <h4 class="font-weight-bold" style="text-transform: capitalize;"> Hi, {{ request.user.username }}</h4>
-                  <h4 class="font-weight-normal mb-0"></h4>
-                </div>
-                <div class="col-12 col-xl-7">
-                  <div class="d-flex align-items-center justify-content-between flex-wrap">
-                    <div class="border-right pr-4 mb-3 mb-xl-0">
-                      <p class="text-muted"></p>
-                      <h4 class="mb-0 font-weight-bold"></h4>
+      <div class="container-fluid page-body-wrapper">
+        <div id="right-sidebar" class="settings-panel">
+          <i class="settings-close ti-close"></i>
+          <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="todo-tab"
+                data-toggle="tab"
+                href="#todo-section"
+                role="tab"
+                aria-controls="todo-section"
+                aria-expanded="true"
+                >TO DO LIST</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content" id="setting-content">
+            <div
+              class="tab-pane fade show active scroll-wrapper"
+              id="todo-section"
+              role="tabpanel"
+              aria-labelledby="todo-section"
+            >
+              <div class="add-items d-flex px-3 mb-0">
+                <form class="form w-100">
+                  <div class="form-group d-flex">
+                    <input
+                      type="text"
+                      class="form-control todo-list-input"
+                      placeholder="Add To-do"
+                    />
+                    <button
+                      type="submit"
+                      class="add btn btn-primary todo-list-add-btn"
+                      id="add-task"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="list-wrapper px-3">
+                <ul class="d-flex flex-column-reverse todo-list">
+                  <li>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="checkbox" type="checkbox" />
+                        Team review meeting at 3.00 PM
+                      </label>
                     </div>
-                    <div class="border-right pr-4 mb-3 mb-xl-0">
-                      <p class="text-muted"></p>
-                      <h4 class="mb-0 font-weight-bold"></h4>
+                    <i class="remove ti-close"></i>
+                  </li>
+                  <li>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="checkbox" type="checkbox" />
+                        Prepare for presentation
+                      </label>
                     </div>
-                    <div class="border-right pr-4 mb-3 mb-xl-0">
-                      <p class="text-muted"></p>
-                      <h4 class="mb-0 font-weight-bold"></h4>
+                    <i class="remove ti-close"></i>
+                  </li>
+                  <li>
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="checkbox" type="checkbox" />
+                        Resolve all the low priority tickets due today
+                      </label>
                     </div>
-                    <div class="pr-3 mb-3 mb-xl-0">
-                      <p class="text-muted">Outstanding Amount</p>
-                      <h4 class="mb-0 font-weight-bold" style="color: #d60404">$ {{balance}}</h4>
+                    <i class="remove ti-close"></i>
+                  </li>
+                  <li class="completed">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="checkbox" type="checkbox" checked />
+                        Schedule meeting for next week
+                      </label>
+                    </div>
+                    <i class="remove ti-close"></i>
+                  </li>
+                  <li class="completed">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input class="checkbox" type="checkbox" checked />
+                        Project review
+                      </label>
+                    </div>
+                    <i class="remove ti-close"></i>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- To do section tab ends -->
+          </div>
+        </div>
+        <!-- partial -->
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            {% for rw in url %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                data-toggle="{{rw.toggle}}"
+                href="#ui-basic-{{rw.id}}"
+                aria-expanded="false"
+                aria-controls="ui-basic"
+              >
+                <i class="{{rw.icon}} menu-icon"></i>
+                <span class="menu-title">{{rw.header}}</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="ui-basic-{{rw.id}}">
+                <ul class="nav flex-column sub-menu">
+                  {% for r in sub_url %} {% if r.rootid_id == rw.id %}
+                   {% if r.toggle == 'modal' %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      href="{{r.page_type}}{{r.slug}}"
+                      data-toggle="{{r.toggle}}"
+                      >{{r.title}}</a
+                    >
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{r.url}}">{{r.title}}</a>
+                  </li>
+                  {% endif %} {% else %} {% endif %} {% endfor %}
+                </ul>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-md-12 grid-margin">
+                <div class="row">
+                  <div class="col-12 col-xl-5 mb-4 mb-xl-0">
+                    <h4
+                      class="font-weight-bold"
+                      style="text-transform: capitalize;"
+                    >
+                      Hi, {{ request.user.username }}
+                    </h4>
+                    <h4 class="font-weight-normal mb-0"></h4>
+                  </div>
+                  <div class="col-12 col-xl-7">
+                    <div
+                      class="d-flex align-items-center justify-content-between flex-wrap"
+                    >
+                      <div class="border-right pr-4 mb-3 mb-xl-0">
+                        <p class="text-muted"></p>
+                        <h4 class="mb-0 font-weight-bold"></h4>
+                      </div>
+                      <div class="border-right pr-4 mb-3 mb-xl-0">
+                        <p class="text-muted"></p>
+                        <h4 class="mb-0 font-weight-bold"></h4>
+                      </div>
+                      <div class="border-right pr-4 mb-3 mb-xl-0">
+                        <p class="text-muted"></p>
+                        <h4 class="mb-0 font-weight-bold"></h4>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {% block content %} {% endblock content %}
           </div>
-        
-
-            
-
-          {% block content %}
-              
-          {% endblock content %}
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019. All rights reserved.</span>
-          </div>
-        </footer>
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-
-
-<script>
-function myFunction() {
-  var input, filter, table, tr, td, i;
-  input = document.getElementById("navbar-search-input");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
-</script>
-
-  <!-- plugins:js -->
-  <script src="{% static 'dash/js/bundle.base.js' %}"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="{% static 'dash/Chart.min.js' %}"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="{% static 'dash/js/off-canvas.js' %}"></script>
-  <script src="{% static 'dash/js/hoverable-collapse.js' %}"></script>
-  <script src="{% static 'dash/js/template.js' %}"></script>
-  <script src="{% static 'dash/js/settings.js' %}"></script>
-  <script src="{% static 'dash/js/todolist.js' %}"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="{% static 'dash/js/dashboard.js' %}"></script>
-  <!-- End custom js for this page-->
-  <!-- Custom js for this page-->
-  <script src="{% static 'dash/js/modal-demo.js' %}"></script>
-  <!-- End custom js for this page-->
-
-
-<!-- The Modal -->
-{% for rw in accts %}
-<div id="staff{{rw.id}}" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-body">
-          <iframe src="{% url 'client-detail' rw.id %}" width="100%" frameborder="0" height="500"></iframe>
-      </div>
-    </div>
-  </div>
-</div>
-{% endfor %}
-
-  {% for r in sub_url %}
-      <div id="{{r.slug}}" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-body">
-                <iframe src="/{{r.url}}/" width="100%" frameborder="0" height="500"></iframe>
+          <!-- content-wrapper ends -->
+          <!-- partial:partials/_footer.html -->
+          <footer class="footer">
+            <div
+              class="d-sm-flex justify-content-center justify-content-sm-between"
+            >
+              <span
+                class="text-muted text-center text-sm-left d-block d-sm-inline-block"
+                >Copyright © 2019. All rights reserved.</span
+              >
             </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+
+    <script>
+      function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("navbar-search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- plugins:js -->
+    <script src="{% static 'dash/js/bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'dash/Chart.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'dash/js/off-canvas.js' %}"></script>
+    <script src="{% static 'dash/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'dash/js/template.js' %}"></script>
+    <script src="{% static 'dash/js/settings.js' %}"></script>
+    <script src="{% static 'dash/js/todolist.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="{% static 'dash/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page-->
+    <!-- Custom js for this page-->
+    <script src="{% static 'dash/js/modal-demo.js' %}"></script>
+    <!-- End custom js for this page-->
+
+    <!-- The Modal -->
+    {% for rw in accts %}
+    <div id="staff{{rw.id}}" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-body">
+            <iframe
+              src="{% url 'client-detail' rw.id %}"
+              width="100%"
+              frameborder="0"
+              height="500"
+            ></iframe>
           </div>
         </div>
       </div>
-{% endfor %}
-
-</body>
-
+    </div>
+    {% endfor %} {% for r in sub_url %}
+    <div id="{{r.slug}}" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-body">
+            <iframe
+              src="/{{r.url}}/"
+              width="100%"
+              frameborder="0"
+              height="500"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </body>
 </html>
-

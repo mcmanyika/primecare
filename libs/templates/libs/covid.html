@@ -1,0 +1,38 @@
+{% extends "dashboard/dash_base.html" %} {% load static %} {% load crispy_forms_tags %} 
+{% block content %}
+<style>
+  li {
+    list-style: none;
+  }
+</style>
+
+<div class="container">
+  <h1>Covid</h1>
+  <form method="post" name="form" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-4" style="min-height: 200px;">
+        Have you been within 6 feet of a person with a lab-confirmed case of
+        COVID-19 for at least 5 minutes, or had direct contact with their mucus
+        or saliva, in the past 14 days?
+      </div>
+      <div class="col-md-8">
+        <ul>
+          {{form.answer}} Click if yes
+        </ul>
+      </div>
+      <div class="col-md-4">
+        In the last 48 hours, have you had any of the following NEW symptoms?
+        Check all that apply.
+      </div>
+      <div class="col-md-8">
+        {{form.answer1}}
+      </div>
+    </div>
+    <div class="col-12" style="padding: 5px;">
+      <button type="submit" class="btn btn-info btn-lg">Submit</button>
+      <input type="hidden" name="user" value="{{ request.user.id }}" />
+    </div>
+  </form>
+</div>
+{% endblock %}

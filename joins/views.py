@@ -7,7 +7,7 @@ from django.db import connection
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import render, HttpResponseRedirect, Http404
@@ -24,7 +24,6 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 
 
-
 # Create your views here.
 
 def dictfetchall(cursor):
@@ -35,43 +34,46 @@ def dictfetchall(cursor):
         for row in cursor.fetchall()
     ]
 
+
 def register_view(request):
     now = datetime.datetime.now()
-    
+
     form = UserRegisterForm(request.POST or None)
 
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        
+
         if user is not None:
             if user.is_active:
                 login(request, user)
                 if user.is_superuser:
-                    return HttpResponseRedirect('/dashboard/main-dash/')
+                    return HttpResponseRedirect('/surveys/covid/')
                 else:
-                    return HttpResponseRedirect('/libs/employee-signin/')      
+                    return HttpResponseRedirect('/libs/employee-signin/')
             else:
                 messages.success(request, "Enter correct username or password")
- 
+
     if request.method == 'POST':
         passchange = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             passchange_user = user.save()
             update_session_auth_hash(request, user)
-            messages.success(request, _('Your password was successfully updated!'))
+            messages.success(request, _(
+                'Your password was successfully updated!'))
             return redirect('change_password')
         else:
             messages.error(request, _('Please correct the error below.'))
     else:
-        passchange = PasswordChangeForm(request.user)            
+        passchange = PasswordChangeForm(request.user)
 
     context = {
-        "form" : form,
-        "passchange" : passchange, 
+        "form": form,
+        "passchange": passchange,
     }
     return render(request, "dashboard/login.html", context)
+
 
 def register(request):
     if request.method == 'POST':
@@ -88,8 +90,9 @@ def register(request):
 
     context = {
         "form": form,
-        }    
-    return render(request, 'joins/register.html', context)   
+    }
+    return render(request, 'joins/register.html', context)
+
 
 def signup(request):
     if request.method == 'POST':
@@ -105,6 +108,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'joins/signup.html', {'form': form})
 
+
 def user_img(request):
     headings = t_dictionary.objects.all().order_by('id')
     rw = t_dictionary.objects.all().order_by("name")
@@ -116,16 +120,18 @@ def user_img(request):
         return redirect('signup-confirmation')
 
     context = {
-        "headings" : headings,
-        "rw" : rw,
-        "img_form" : img_form,
-    }    
+        "headings": headings,
+        "rw": rw,
+        "img_form": img_form,
+    }
     template = 'joins/user_img.html'
     return render(request, template, context)
 
+
 def signup_confirmation(request):
-    
+
     return render(request, 'signup_confirmation.html')
+
 
 def change_password(request):
     if request.method == 'POST':
@@ -133,7 +139,8 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, _('Your password was successfully updated!'))
+            messages.success(request, _(
+                'Your password was successfully updated!'))
             return redirect('change_password')
         else:
             messages.error(request, _('Please correct the error below.'))
@@ -141,12 +148,10 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'change_password.html', {
         'form': form
-}) 
+    })
+
 
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-
-
 

@@ -24,13 +24,15 @@ from libs.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('joins.urls')),
+    url(r'surveys/', include('survey.urls')),
     url(r'libs/', include('libs.urls')),
     url(r'client/', include('client.urls')),
     url(r'snippets/', include('snippets.urls')),
     url(r'dashboard/', include('dashboard.urls')),
     url(r'frontend/', include('frontend.urls')),
-    
+
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

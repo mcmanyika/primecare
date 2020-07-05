@@ -2,9 +2,9 @@ from django.db import connection
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, get_object_or_404, render_to_response, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 
-from django.db.models import Q  
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
@@ -21,7 +21,7 @@ from libs.forms import *
 from joins.forms import *
 from client.models import *
 from client.forms import *
- 
+
 
 # Create your views here.
 
@@ -34,68 +34,62 @@ def dictfetchall(cursor):
     ]
 
 
-
 def employee_signin(request):
 
-	staff = t_accts.objects.raw("""SELECT a.id, a.fname, a.lname
+    staff = t_accts.objects.raw("""SELECT a.id, a.fname, a.lname
 	                                     FROM joins_t_accts a
 	                                     WHERE a.user = %s """, [request.user.id])
 
-	
+    form = EmployeeSignInForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/client/employee-dash/')
 
-	form = EmployeeSignInForm(request.POST or None, request.FILES or None)
-	if form.is_valid():
-	    f = form.save(commit=False)
-	    f.save()
-	    messages.success(request, "Saved")
-	    return HttpResponseRedirect('/client/employee-dash/')
+    context = {
+        "staff": staff,
+        "form": form,
+    }
 
+    template = "add_daily_rec.html"
 
-	context = {
-		"staff" : staff,
-	   "form" : form,
-	}    
+    return render(request, template, context)
 
-	template = "add_daily_rec.html"    
-
-	return render(request, template, context)
 
 def employee_signout(request):
 
-	form = EmployeeSignOutForm(request.POST or None, request.FILES or None)
-	if form.is_valid():
-	    f = form.save(commit=False)
-	    f.save()
-	    messages.success(request, "Saved")
-	    return HttpResponseRedirect('/')
+    form = EmployeeSignOutForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/')
 
+    context = {
+        "form": form,
+    }
 
-	context = {
-	   "form" : form,
-	}    
+    template = "employee_signout.html"
 
-	template = "employee_signout.html"    
-
-	return render(request, template, context)
+    return render(request, template, context)
 
 
 @login_required(login_url='/login/')
 def staff_dashboard(request):
-	accts = t_accts.objects.raw("""
+    accts = t_accts.objects.raw("""
                                     SELECT a.id, ea.rootid_id, a.fname, a.lname, ea.employee_id, a.account_type
                                     FROM joins_t_accts a
                                     INNER JOIN joins_t_employee_attribute ea ON ea.rootid_id = a.id
                                 """)
+    context = {
+        "staff": staff,
 
+    }
 
-	context = {
-	   "staff" : staff,
-	    
-	}    
+    template = "staff.html"
 
-	template = "staff.html"    
-
-	return render(request, template, context)
+    return render(request, template, context)
 
 
 @login_required(login_url='/login/')
@@ -117,7 +111,6 @@ def staff(request):
 									INNER JOIN joins_t_employee_attribute ea ON ea.rootid_id = a.id
                                 """)
 
-
     paginator = Paginator(accts, 100)  # Show 25 contacts per page
     page_request_var = "page"
     page = request.GET.get('page')
@@ -130,8 +123,6 @@ def staff(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
 
-
-
     billinghistory = t_bill.objects.raw("""SELECT b.id, b.client_number, b.billing_date
                                             FROM client_t_bill b
                                             ORDER BY b.id Desc""")
@@ -140,16 +131,16 @@ def staff(request):
     c.cursor.execute("""SELECT a.id , count(a.id) as count, a.gender
                                      FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
-                                     GROUP BY a.gender""") 
+                                     GROUP BY a.gender""")
     c = dictfetchall(c)
     totalFemale = c[0]['count'] if c else 0
     totalMen = c[1]['count'] if c else 0
-    totalCount = (totalFemale + totalMen) 
+    totalCount = (totalFemale + totalMen)
 
     ta = connection.cursor()
     ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
                          FROM client_t_billing_tracker b
-                      """) 
+                      """)
     ta = dictfetchall(ta)
     total_billed = ta[0]['total_billed'] if ta else 0
     total_paid = ta[0]['total_paid'] if ta else 0
@@ -160,24 +151,22 @@ def staff(request):
         balance = 0
         total_paid = 0
         total_billed = 0
-	
-
 
     context = {
-	   "dictionary" : dictionary,
-	   "accts" : queryset,
-	   "VisitTracker" : VisitTracker,
-       "url" : url,
-       "sub_url" : sub_url,
-       "balance" : balance,
-       "total_paid" : total_paid,
-       "total_billed" : total_billed,
-       "totalMen" : totalMen,
-       "totalFemale" : totalFemale,
-	    
-    }    
+        "dictionary": dictionary,
+        "accts": queryset,
+        "VisitTracker": VisitTracker,
+        "url": url,
+        "sub_url": sub_url,
+        "balance": balance,
+        "total_paid": total_paid,
+        "total_billed": total_billed,
+        "totalMen": totalMen,
+        "totalFemale": totalFemale,
 
-    template = "staff.html"    
+    }
+
+    template = "staff.html"
 
     return render(request, template, context)
 
@@ -194,7 +183,8 @@ def staff_detail(request, id):
                                         FROM libs_t_oig og 
                                         WHERE og.rootid_id = %s ORDER BY og.id DESC""", [instance.id])
 
-    EditAcctform = EditAcctForm(request.POST or None, request.FILES or None, instance=instance)
+    EditAcctform = EditAcctForm(
+        request.POST or None, request.FILES or None, instance=instance)
     if EditAcctform.is_valid():
         f = EditAcctform.save(commit=False)
         f.save()
@@ -209,53 +199,52 @@ def staff_detail(request, id):
     if exclusionform.is_valid():
         f = exclusionform.save(commit=False)
         f.save()
-        messages.success(request, "Saved")    
+        messages.success(request, "Saved")
 
     context = {
-    "EditAcctform" : EditAcctform,
-    "form" : form,
-    "exclusionform" : exclusionform,
-    "oig" : oig,
-    "id" : instance.id,
-    "fname" : instance.fname,
-    "middle_name" : instance.middle_name,
-    "lname" : instance.lname,
-    "gender" : instance.gender,
-    "phone": instance.phone,
-    "address" : instance.address,
-    "email" : instance.email,
-    "emergency_contact" : instance.emergency_contact,
+        "EditAcctform": EditAcctform,
+        "form": form,
+        "exclusionform": exclusionform,
+        "oig": oig,
+        "id": instance.id,
+        "fname": instance.fname,
+        "middle_name": instance.middle_name,
+        "lname": instance.lname,
+        "gender": instance.gender,
+        "phone": instance.phone,
+        "address": instance.address,
+        "email": instance.email,
+        "emergency_contact": instance.emergency_contact,
 
-    "client" : client,
-        
-    }    
+        "client": client,
 
-    template = "staff_detail.html"    
+    }
+
+    template = "staff_detail.html"
 
     return render(request, template, context)
 
 
 def add_staff(request):
-	dictionary = t_dict.objects.all().order_by('-id')
+    dictionary = t_dict.objects.all().order_by('-id')
 
-	form = AcctForm(request.POST or None, request.FILES or None)
-	if form.is_valid():
-	    f = form.save(commit=False)
-	    f.save()
-	    messages.success(request, "Saved")
-	    return HttpResponseRedirect('/staff-dashboard/')
+    form = AcctForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/staff-dashboard/')
 
-	context = {
-		"form" : form,
-		"dictionary" : dictionary,
+    context = {
+        "form": form,
+        "dictionary": dictionary,
 
-    
-	}    
 
-	template = "add_staff.html"    
+    }
 
-	return render(request, template, context)
- 
+    template = "add_staff.html"
+
+    return render(request, template, context)
 
 
 @login_required(login_url='/')
@@ -269,13 +258,18 @@ def main_dash(request):
                                        FROM libs_t_sub_url su
                                     """)
 
+    covid = t_questionnaire.objects.raw("""SELECT q.id, a.fname, a.lname, q.timestamp
+                                       FROM libs_t_questionnaire q
+                                       INNER JOIN joins_t_accts a ON a.id = q.user
+                                       Limit 6
+                                    """)
+
     accts = t_accts.objects.raw("""SELECT a.id, ca.rootid_id, a.fname, a.middle_name, a.lname,a.gender, 
                                     a.dob, a.phone, a.address, a.emergency_contact, 
                                     ca.client_number, ca.soc, a.account_type
                                     FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
                                 """)
-
 
     paginator = Paginator(accts, 6)  # Show 25 contacts per page
     page_request_var = "page"
@@ -288,8 +282,6 @@ def main_dash(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
-   
-          
 
     BillingTracker = t_billing_tracker.objects.raw("""SELECT ca.rootid_id, bt.id,  a.fname, a.lname, ca.client_number, a.account_type,
                                                      bt.service_date_from, bt.service_date_to,
@@ -310,34 +302,34 @@ def main_dash(request):
     c.cursor.execute("""SELECT a.id , count(a.id) as count, a.gender
                                      FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
-                                     GROUP BY a.gender""") 
+                                     GROUP BY a.gender""")
     c = dictfetchall(c)
     totalFemale = c[0]['count'] if c else 0
     totalMen = c[1]['count'] if c else 0
-    totalCount = (totalFemale + totalMen) 
+    totalCount = (totalFemale + totalMen)
 
     ta = connection.cursor()
     ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
                          FROM client_t_billing_tracker b
-                      """) 
+                      """)
     ta = dictfetchall(ta)
     total_billed = ta[0]['total_billed'] if ta else 0
     total_paid = ta[0]['total_paid'] if ta else 0
 
-    if total_billed :
+    if total_billed:
         balance = (total_billed - total_paid)
     else:
         balance = 0
         total_paid = 0
         total_billed = 0
-    
+
     payment_track = t_bill.objects.raw("""SELECT bt.id, b.billing_date, ca.company, bt.payment_status, 
                                                   bt.amount_billed, bt.amount_paid
                                             FROM client_t_billing_tracker bt
                                             INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = bt.rootid_id
                                             INNER JOIN client_t_bill b ON b.rootid = bt.rootid_id
                                             GROUP BY b.billing_date, bt.payment_status, ca.company""")
-                                                
+
     form = BillingTrackerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         f = form.save(commit=False)
@@ -349,30 +341,31 @@ def main_dash(request):
         f = billform.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-        
 
     context = {
-       "url" : url,
-       "sub_url": sub_url, 
-       "dictionary" : dictionary,
-       "form" : form,
-       "billform" : billform,
-       "payment_track" : payment_track,
-       "BillingTracker" : BillingTracker,
-       "billinghistory" : billinghistory,
-       "accts" : queryset,
-       "gender" : c,
-       "totalMen" : totalMen,
-       "totalFemale" : totalFemale,
-       "total_billed" : total_billed,
-       "total_paid" : total_paid,
-       "balance" : balance,
-      
-    }    
+        "url": url,
+        "sub_url": sub_url,
+        "dictionary": dictionary,
+        "form": form,
+        "covid" : covid,
+        "billform": billform,
+        "payment_track": payment_track,
+        "BillingTracker": BillingTracker,
+        "billinghistory": billinghistory,
+        "accts": queryset,
+        "gender": c,
+        "totalMen": totalMen,
+        "totalFemale": totalFemale,
+        "total_billed": total_billed,
+        "total_paid": total_paid,
+        "balance": balance,
 
-    template = "client/dashboard.html"    
+    }
+
+    template = "client/dashboard.html"
 
     return render(request, template, context)
+
 
 @login_required(login_url='/')
 def client(request):
@@ -397,7 +390,6 @@ def client(request):
 
                                 """)
 
-
     paginator = Paginator(accts, 100)  # Show 25 contacts per page
     page_request_var = "page"
     page = request.GET.get('page')
@@ -410,13 +402,12 @@ def client(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         queryset = paginator.page(paginator.num_pages)
 
-        
     query = request.GET.get("q")
     if query:
         queryset = accts.filter(
             Q(fname__icontains=query) |
-            Q(lname__icontains=query) 
-        ).distinct()     
+            Q(lname__icontains=query)
+        ).distinct()
 
     BillingTracker = t_billing_tracker.objects.raw("""SELECT ca.rootid_id, bt.id,  a.fname, a.lname, ca.client_number, a.account_type,
                                                      bt.service_date_from, bt.service_date_to,
@@ -436,16 +427,16 @@ def client(request):
     c.cursor.execute("""SELECT a.id , count(a.id) as count, a.gender
                                      FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
-                                     GROUP BY a.gender""") 
+                                     GROUP BY a.gender""")
     c = dictfetchall(c)
     totalFemale = c[0]['count'] if c else 0
     totalMen = c[1]['count'] if c else 0
-    totalCount = (totalFemale + totalMen) 
+    totalCount = (totalFemale + totalMen)
 
     ta = connection.cursor()
     ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
                          FROM client_t_billing_tracker b
-                      """) 
+                      """)
     ta = dictfetchall(ta)
     total_billed = ta[0]['total_billed'] if ta else 0
     total_paid = ta[0]['total_paid'] if ta else 0
@@ -456,7 +447,6 @@ def client(request):
         balance = 0
         total_paid = 0
         total_billed = 0
-    
 
     form = BillingTrackerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -469,28 +459,27 @@ def client(request):
         f = billform.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-        
 
     context = {
-       "url" : url,
-       "sub_url": sub_url, 
-       "dictionary" : dictionary,
-       "form" : form,
-       "billform" : billform,
-       "BillingTracker" : BillingTracker,
-       "billinghistory" : billinghistory,
-       "accts" : queryset,
-       "last_billed" : last_billed,
-       "gender" : c,
-       "totalMen" : totalMen,
-       "totalFemale" : totalFemale,
-       "total_billed" : total_billed,
-       "total_paid" : total_paid,
-       "balance" : balance,
-	    
-    }    
+        "url": url,
+        "sub_url": sub_url,
+        "dictionary": dictionary,
+        "form": form,
+        "billform": billform,
+        "BillingTracker": BillingTracker,
+        "billinghistory": billinghistory,
+        "accts": queryset,
+        "last_billed": last_billed,
+        "gender": c,
+        "totalMen": totalMen,
+        "totalFemale": totalFemale,
+        "total_billed": total_billed,
+        "total_paid": total_paid,
+        "balance": balance,
 
-    template = "client/client.html"    
+    }
+
+    template = "client/client.html"
 
     return render(request, template, context)
 
@@ -506,46 +495,45 @@ def client_detail(request, id):
                                             INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
                                             INNER JOIN client_t_billing_tracker b ON b.rootid_id = ca.rootid_id
                                             WHERE ca.rootid_id = %s ORDER BY b.id DESC""", [instance.id])
-    
 
     form = CareGiverForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         f = form.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-    
-    EditAcctform = EditAcctForm(request.POST or None, request.FILES or None, instance=instance)
+
+    EditAcctform = EditAcctForm(
+        request.POST or None, request.FILES or None, instance=instance)
     if EditAcctform.is_valid():
         f = EditAcctform.save(commit=False)
         f.save()
         messages.success(request, "Saved")
         # return HttpResponseRedirect('/signup-confirmation/')
-    
-    ClientAttributeForm = EditClientAttributeForm(request.POST or None, request.FILES or None, instance=inst)
+
+    ClientAttributeForm = EditClientAttributeForm(
+        request.POST or None, request.FILES or None, instance=inst)
     if ClientAttributeForm.is_valid():
         form = ClientAttributeForm.save(commit=False)
         form.save()
         messages.success(request, "Saved")
-
-
     context = {
-    "form" : form,
-    "EditAcctform" :EditAcctform,
-    "ClientAttributeForm" : ClientAttributeForm,
-    "id" : instance.id,
-    "fname" : instance.fname,
-    "middle_name" : instance.middle_name,
-    "lname" : instance.lname,
-    "gender" : instance.gender,
-    "dob" : instance.dob,
-    "phone": instance.phone,
-    "address" : instance.address,
-    "emergency_contact" : instance.emergency_contact,
-    "billinghistory" : billinghistory,
-        
-    }    
+        "form": form,
+        "EditAcctform": EditAcctform,
+        "ClientAttributeForm": ClientAttributeForm,
+        "id": instance.id,
+        "fname": instance.fname,
+        "middle_name": instance.middle_name,
+        "lname": instance.lname,
+        "gender": instance.gender,
+        "dob": instance.dob,
+        "phone": instance.phone,
+        "address": instance.address,
+        "emergency_contact": instance.emergency_contact,
+        "billinghistory": billinghistory,
 
-    template = "client/client_detail.html"    
+    }
+
+    template = "client/client_detail.html"
 
     return render(request, template, context)
 
@@ -553,22 +541,21 @@ def client_detail(request, id):
 def client_attribute_detail(request, id):
     instance = get_object_or_404(t_client_attribute, rootid_id=id)
     dictionary = t_dict.objects.all()
-    
-    ClientAttributeForm = EditClientAttributeForm(request.POST or None, request.FILES or None, instance=instance)
+
+    ClientAttributeForm = EditClientAttributeForm(
+        request.POST or None, request.FILES or None, instance=instance)
     if ClientAttributeForm.is_valid():
         form = ClientAttributeForm.save(commit=False)
         form.save()
         messages.success(request, "Saved")
-
-
     context = {
-    "dictionary" : dictionary,
-    "ClientAttributeForm" : ClientAttributeForm,
-    "company": instance.company,
-        
-    }    
+        "dictionary": dictionary,
+        "ClientAttributeForm": ClientAttributeForm,
+        "company": instance.company,
 
-    template = "client/client_attribute_detail.html"    
+    }
+
+    template = "client/client_attribute_detail.html"
 
     return render(request, template, context)
 
@@ -583,7 +570,6 @@ def billing(request):
     sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
                                        FROM libs_t_sub_url su
                                     """)
-
 
     billing = t_billing_tracker.objects.raw("""SELECT ca.rootid_id, bt.id,  a.fname, a.lname, ca.client_number, a.account_type,
                                                      bt.service_date_from, bt.service_date_to,
@@ -602,16 +588,16 @@ def billing(request):
     c.cursor.execute("""SELECT a.id , count(a.id) as count, a.gender
                                      FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
-                                     GROUP BY a.gender""") 
+                                     GROUP BY a.gender""")
     c = dictfetchall(c)
     totalFemale = c[0]['count'] if c else 0
     totalMen = c[1]['count'] if c else 0
-    totalCount = (totalFemale + totalMen) 
+    totalCount = (totalFemale + totalMen)
 
     ta = connection.cursor()
     ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
                          FROM client_t_billing_tracker b
-                      """) 
+                      """)
     ta = dictfetchall(ta)
     total_billed = ta[0]['total_billed'] if ta else 0
     total_paid = ta[0]['total_paid'] if ta else 0
@@ -622,7 +608,6 @@ def billing(request):
         balance = 0
         total_paid = 0
         total_billed = 0
-    
 
     form = BillingTrackerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -635,29 +620,27 @@ def billing(request):
         f = billform.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-        
 
     context = {
-       "url" : url,
-       "sub_url": sub_url, 
-       "dictionary" : dictionary,
-       "form" : form,
-       "billform" : billform,
-       "billinghistory" : billinghistory,
-       "billing" : billing,
-       "gender" : c,
-       "totalMen" : totalMen,
-       "totalFemale" : totalFemale,
-       "total_billed" : total_billed,
-       "total_paid" : total_paid,
-       "balance" : balance,
-        
-    }    
+        "url": url,
+        "sub_url": sub_url,
+        "dictionary": dictionary,
+        "form": form,
+        "billform": billform,
+        "billinghistory": billinghistory,
+        "billing": billing,
+        "gender": c,
+        "totalMen": totalMen,
+        "totalFemale": totalFemale,
+        "total_billed": total_billed,
+        "total_paid": total_paid,
+        "balance": balance,
 
-    template = "client/billing.html"    
+    }
+
+    template = "client/billing.html"
 
     return render(request, template, context)
-
 
 
 def batch_detail(request, id):
@@ -667,53 +650,55 @@ def batch_detail(request, id):
 											FROM client_t_bill b
 											INNER JOIN client_t_batch ba ON ba.rootid_id = b.id 
 											WHERE b.rootid_id = %s ORDER BY ba.id DESC""", [instance.id])
-    
+
     form = BatchForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         f = form.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-    
-    
-    context = {
-        "dictionary" : dictionary,
-    	"form" : form,
-    	"rootid" : instance.id, 
-    	"bill_date" : instance.billing_date,
-    	"batch_id" : instance.batch_id,
-    	"batch" : batch,
-        
-    }    
 
-    template = "client/batch_detail.html"    
+    context = {
+        "dictionary": dictionary,
+        "form": form,
+        "rootid": instance.id,
+        "bill_date": instance.billing_date,
+        "batch_id": instance.batch_id,
+        "batch": batch,
+
+    }
+
+    template = "client/batch_detail.html"
 
     return render(request, template, context)
+
 
 def edit_batch_detail(request, id):
     dictionary = t_dict.objects.all().order_by('-id')
     instance = get_object_or_404(t_bill, id=id)
 
-    form = BatchForm(request.POST or None, request.FILES or None, instance=instance)
+    form = BatchForm(request.POST or None,
+                     request.FILES or None, instance=instance)
     if form.is_valid():
         f = form.save(commit=False)
         f.save()
         messages.success(request, "Saved")
         return HttpResponseRedirect('/confirmation/')
-    
-    context = {
-        "dictionary" : dictionary,
-        "batch_id" : instance.batch_id,
-        "form" : form,
-        
-    }    
 
-    template = "client/edit_batch_detail.html"    
+    context = {
+        "dictionary": dictionary,
+        "batch_id": instance.batch_id,
+        "form": form,
+
+    }
+
+    template = "client/edit_batch_detail.html"
 
     return render(request, template, context)
 
+
 @login_required(login_url='/login/')
 def resources(request):
-  
+
     dictionary = t_dict.objects.all()
     resources = t_resources.objects.all()
 
@@ -740,7 +725,7 @@ def resources(request):
     ta = connection.cursor()
     ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
                          FROM client_t_billing_tracker b
-                      """) 
+                      """)
     ta = dictfetchall(ta)
     total_billed = ta[0]['total_billed'] if ta else 0
     total_paid = ta[0]['total_paid'] if ta else 0
@@ -758,21 +743,19 @@ def resources(request):
         f.save()
         messages.success(request, "Saved")
         # return HttpResponseRedirect('/confirmation/')
-
-
     context = {
-     "resources" : resources,  
-     "dictionary" : dictionary,
-     "url" : url,
-     "sub_url" : sub_url,
-     "BillingTracker" : BillingTracker,
-     "billinghistory" : billinghistory,
-     "balance" : balance,
-     "form" : form, 
-      
-    }    
+        "resources": resources,
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "BillingTracker": BillingTracker,
+        "billinghistory": billinghistory,
+        "balance": balance,
+        "form": form,
 
-    template = "libs/resources.html"    
+    }
+
+    template = "libs/resources.html"
 
     return render(request, template, context)
 
@@ -782,7 +765,7 @@ def acct_delete(request, id):
     obj.delete()
 
     context = {
-        "object" : obj,
+        "object": obj,
     }
 
     template = "acct_delete.html"
@@ -790,11 +773,36 @@ def acct_delete(request, id):
     return render(request, template, context)
 
 
+def covid(request):
+    dictionary = t_dict.objects.all()
+
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+
+    form = CovidForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/dashboard/main-dash/')
+
+    context = {
+        "url": url,
+        "sub_url": sub_url,
+        'form': form,
+    }
+    template = "libs/covid.html"
+
+    return render(request, template, context)
+
 
 # class AcctListView(ListView):
 #     template = 'client/acct_list.html'
 #     queryset = t_accts.objects.all()
-
 
 
 class AcctDelete(DeleteView):
@@ -806,5 +814,3 @@ class AcctDelete(DeleteView):
 
     def get_success_url(self):
         return reverse('client')
-
-    

@@ -6,18 +6,24 @@ from libs.views import *
 from client.views import *
 
 urlpatterns = [
-    
-	url(r'^add-staff/', add_staff, name='add-staff'),
+
+    url(r'^add-staff/', add_staff, name='add-staff'),
     url(r'^staff/', staff, name='staff'),
     url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
     url(r'^client/', client, name='client'),
-    url(r'^libs/client-detail/(?P<id>.*)$', client_detail, name='client-detail'),
+    url(r'^libs/client-detail/(?P<id>.*)$',
+        client_detail, name='client-detail'),
     url(r'^batch-detail/(?P<id>.*)$', batch_detail, name='batch-detail'),
-    url(r'^edit-batch-detail/(?P<id>.*)$', edit_batch_detail, name='edit-batch-detail'),
+    url(r'^edit-batch-detail/(?P<id>.*)$',
+        edit_batch_detail, name='edit-batch-detail'),
 
-    url(r'^libs/client-attribute-detail/(?P<id>.*)$', client_attribute_detail, name='client-attribute-detail'),
+    url(r'^libs/client-attribute-detail/(?P<id>.*)$',
+        client_attribute_detail, name='client-attribute-detail'),
 
     url(r'^acct-delete/(?P<id>.*)$', acct_delete, name='acct-delete'),
+
+    url(r'covid/', covid, name='covid'),
+
 
 
     url(r'^billing-tracker/', billing_tracker, name='billing-tracker'),
@@ -28,8 +34,9 @@ urlpatterns = [
     url(r'^add-client/', add_client, name='add-client'),
 
     url(r'^resources/', resources, name='resources'),
-    
+
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

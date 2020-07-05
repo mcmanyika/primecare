@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'multiselectfield',
     'joins',
     'libs',
     'client',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'dashboard',
     'crispy_forms',
     'frontend',
+    'survey',
 
 ]
 
