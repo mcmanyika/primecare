@@ -19,8 +19,6 @@ from django.contrib.auth.decorators import login_required
 from libs.models import *
 from libs.forms import *
 from joins.forms import *
-from client.models import *
-from client.forms import *
 
 
 # Create your views here.
@@ -347,7 +345,7 @@ def main_dash(request):
         "sub_url": sub_url,
         "dictionary": dictionary,
         "form": form,
-        "covid" : covid,
+        "covid": covid,
         "billform": billform,
         "payment_track": payment_track,
         "BillingTracker": BillingTracker,
