@@ -9,8 +9,6 @@ urlpatterns = [
 
 
 
-    url(r'covid/', covid, name='covid'),
-
 
 
 ]

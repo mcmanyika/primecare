@@ -10,8 +10,8 @@
     <div class="mobile-container">
       <!-- Top Navigation Menu -->
       <div class="topnav">
-        <a href="#home" class="active">Primecare Services</a>
-        <div id="myLinks">
+        <a href="{% url 'covid' %}" class="active">Primecare Services</a>
+        <div id="myLinks" style="font-weight: 100;">
           <a href="{% url 'success' %}">Contact Us</a>
           <a href="{% url 'logout' %}">Logout</a>
         </div>
