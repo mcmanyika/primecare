@@ -7,7 +7,7 @@ from django.db import models
 
 
 class t_questionnaire(models.Model):
-    QUESTION_CHOCES = (
+    QUESTION_CHOCE = (
         ('Fever of 100 F (37.8 C)',
          'Fever (if measured with a thermometer)'),
         ('Cough', 'Cough'),
@@ -30,7 +30,8 @@ class t_questionnaire(models.Model):
     q2 = models.BooleanField()
     q3 = models.BooleanField()
     q4 = models.BooleanField()
-    q5 = MultiSelectField(choices=QUESTION_CHOCES)
+    q5 = MultiSelectField(choices=QUESTION_CHOCE)
+    q6 = models.BooleanField()
     user = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
