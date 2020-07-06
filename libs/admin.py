@@ -83,22 +83,3 @@ class ResourcesAdmin(admin.ModelAdmin):
 
 admin.site.register(t_resources, ResourcesAdmin)
 
-
-class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title']
-
-    class Meta:
-        t_question
-
-
-admin.site.register(t_question, QuestionAdmin)
-
-
-class QuestionnaireAdmin(admin.ModelAdmin):
-    list_display = ['id', 'answer']
-
-    class Meta:
-        t_questionnaire
-
-
-admin.site.register(t_questionnaire, QuestionnaireAdmin)

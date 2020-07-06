@@ -32,9 +32,3 @@ class ResourceForm(forms.ModelForm):
     class Meta:
         model = t_resources
         fields = ["name", "description", "document", 'category', 'user']
-
-
-class CovidForm(forms.ModelForm):
-    class Meta:
-        model = t_questionnaire
-        fields = ["answer", "answer1", "user"]

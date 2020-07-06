@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'joins',
     'libs',
     'dashboard',
-    'crispy_forms',
     'survey',
 
 ]

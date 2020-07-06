@@ -148,39 +148,3 @@ class t_sub_resources(models.Model):
     def __unicode__(self):
         return 't_sub_resources {}'.format(self.id)
 
-
-class t_question(models.Model):
-    title = models.CharField(max_length=200, default='', null=True, blank=True)
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-
-class t_questionnaire(models.Model):
-    QUESTION_CHOCES = (
-        ('Fever of 100 F (37.8 C) or above or possible fever symptoms like alternating chills and sweating',
-         'Fever of 100 F (37.8 C) , above or possible fever symptoms like alternating chills and sweating'),
-        ('Cough', 'Cough'),
-        ('Trouble breathing or shortness of breath or severe wheezing',
-         'Trouble breathing, shortness of breath or severe wheezing'),
-        ('Chills or repeated shaking with chills',
-         'Chills, repeated shaking with chills'),
-        ('Muscle aches', 'Muscle aches'),
-        ('Sore throat', 'Sore throat'),
-        ('Loss of smell or taste or a change in taste',
-         'Loss of smell or taste, or a change in taste'),
-        ('Nausea or vomiting or diarrhea', 'Nausea, vomiting or diarrhea'),
-        ('Headache', 'Headache'),
-        ('None of the above', 'None of the above')
-    )
-    answer = models.BooleanField()
-    answer1 = MultiSelectField(choices=QUESTION_CHOCES)
-    user = models.IntegerField()
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_questionnaire {}'.format(self.id)

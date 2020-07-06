@@ -5,7 +5,7 @@ from .models import *
 
 
 class QuestionnaireAdmin(admin.ModelAdmin):
-    list_display = ['id', 'answer']
+    list_display = ['id', 'q1']
 
     class Meta:
         t_questionnaire

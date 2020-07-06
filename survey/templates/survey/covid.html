@@ -1,5 +1,4 @@
-{% extends "survey/base.html" %} {% load static %} {% load crispy_forms_tags %}
-{% block content %}
+{% extends "survey/base.html" %} {% load static %} {% block content %}
 
 <div class="container">
   <form
@@ -19,17 +18,45 @@
       </div>
       <div class="col-12 pad">
         <ul>
-          {{form.answer}} Click if yes
+          {{form.q1}} Click if yes
+        </ul>
+      </div>
+      <div class="col-12">
+        Have you had any contact with any person who has travelled outside the
+        USA in the past 14 days?
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q2}} Click if yes
+        </ul>
+      </div>
+      <div class="col-12">
+        Have been in close contact with someone diagnosed with COVID-19 in the
+        past 14 days?
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q3}} Click if yes
+        </ul>
+      </div>
+      <div class="col-12">
+        Have been in close contact with someone who is ill with a respiratory
+        illness?
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q4}} Click if yes
         </ul>
       </div>
     </div>
+
     <div class="tab">
       <div class="col-12">
         In the last 48 hours, have you had any of the following NEW symptoms?
         Check all that apply.
       </div>
       <div class="col-12 pad">
-        {{form.answer1}}
+        {{form.q5}}
       </div>
       <div class="col-12 pad" style="text-align: center;">
         <button id="submit" type="submit" class="btn btn-info btn-lg">
