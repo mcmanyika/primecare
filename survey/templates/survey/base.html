@@ -7,7 +7,7 @@
     {% include 'survey/head.html' %}
   </head>
   <body>
-    <div class="mobile-container">
+    <div>
       <!-- Top Navigation Menu -->
       <div class="topnav">
         <a href="{% url 'covid' %}" class="active">Primecare Services</a>
@@ -20,7 +20,12 @@
         </a>
       </div>
 
-      {% block content %} {% endblock %} {% include 'survey/scripts.html' %}
+      {% block content %} {% endblock %}
+      <div class="footer">
+        <a href="{% url 'covid' %}" class="list-group-item"><i class="fa fa-home fa-fw fa-4x"></i></a>
+      </div>
+    </div>
+      {% include 'survey/scripts.html' %}
     </div>
   </body>
 </html>
