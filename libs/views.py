@@ -19,6 +19,10 @@ from django.contrib.auth.decorators import login_required
 from libs.models import *
 from libs.forms import *
 from joins.forms import *
+from client.models import *
+from client.forms import *
+from survey.models import *
+from survey.forms import *
 
 
 # Create your views here.
@@ -257,7 +261,7 @@ def main_dash(request):
                                     """)
 
     covid = t_questionnaire.objects.raw("""SELECT q.id, a.fname, a.lname, q.timestamp
-                                       FROM libs_t_questionnaire q
+                                       FROM survey_t_questionnaire q
                                        INNER JOIN joins_t_accts a ON a.id = q.user
                                        Limit 6
                                     """)

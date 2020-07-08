@@ -25,22 +25,16 @@
           <div class="card">
             <div class="card-body">
               <div class="row">
-              <div class="col-sm-8">
+              <div class="col-sm-7">
               <p class="card-title text-md-center text-xl-left"><a href="#staff{{rw.id}}" data-toggle="modal"><h5>{{rw.fname}} {% if rw.middle_name %}{{rw.middle_name}} {% else %}{% endif %} {{rw.lname}}</h5></a></p>
                
               <p class="mb-0 mt-2 text-warning">{{rw.gender}}</p>
               <p class="mb-0 mt-2 text-success">{% if rw.phone %}Phone : {{rw.phone}}{% else %}{% endif %}</p>
-              <p class="mb-0 mt-2 text-warning">{{rw.company}}</p>
-              {% for r in last_billed %}
-                {% if r.rootid == rw.id %}
-              <p class="mb-0 mt-2 text-danger">Last Billed : {{r.billing_date}}</p>
-                {% endif %}
-              {% endfor %}
+              
             </div>
 
-            <div class="col-sm-4" style="font-size: 11px">
-              <a href="#Bill{{rw.id}}" data-toggle="modal">Last Billed</a> 
-              <a href="#BillingTracker{{rw.client_number}}" data-toggle="modal">Payments</a>
+            <div class="col-sm-5" style="font-size: 10px">
+              <p class="mb-0 mt-2 text-warning">{{rw.company}}</p>
             </div>
           </div>
             </div>
@@ -121,7 +115,7 @@
 
 {% for rw in accts %}
 <div id="BillingTracker{{rw.client_number}}" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
     <!-- Modal content-->
     <div class="modal-content" style="background-color: #fff">
       <div class="modal-body">

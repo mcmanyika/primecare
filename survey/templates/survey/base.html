@@ -22,10 +22,11 @@
 
       {% block content %} {% endblock %}
       <div class="footer">
-        <a href="{% url 'covid' %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
+        <a href="{% if request.user.is_staff %}{% url 'client' %}{%else %}{% url 'covid' %}{% endif %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
+        
       </div>
     </div>
       {% include 'survey/scripts.html' %}
     </div>
   </body>
-</html>
+</html>   

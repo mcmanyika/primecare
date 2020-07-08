@@ -38,17 +38,16 @@
   </head>
   <body class="sidebar-icon-only sidebar-dark">
     <div class="container-scroller">
-      <!-- partial:partials/_navbar.html -->
       <nav
         class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row navbar-dark"
       >
         <div
           class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
         >
-          <a class="navbar-brand brand-logo mr-5" href="{% url 'main-dash' %}"
+          <a class="navbar-brand brand-logo mr-5" href=""
             ><img src="{% static 'img/logo.png' %}" class="mr-2" alt="logo"
           /></a>
-          <a class="navbar-brand brand-logo-mini" href="{% url 'main-dash' %}"
+          <a class="navbar-brand brand-logo-mini" href=""
             ><img src="{% static 'img/logo.png' %}" alt="logo"
           /></a>
         </div>
@@ -225,7 +224,7 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
           <ul class="nav">
-            {% for rw in url %}
+            {% for rw in url %} {% if rw.status == 'Active' %}
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -240,8 +239,8 @@
               </a>
               <div class="collapse" id="ui-basic-{{rw.id}}">
                 <ul class="nav flex-column sub-menu">
-                  {% for r in sub_url %} {% if r.rootid_id == rw.id %}
-                   {% if r.toggle == 'modal' %}
+                  {% for r in sub_url %} {% if r.rootid_id == rw.id %} 
+                  {% if  r.toggle == 'modal' %}
                   <li class="nav-item">
                     <a
                       class="nav-link"
@@ -258,7 +257,7 @@
                 </ul>
               </div>
             </li>
-            {% endfor %}
+            {% endif%} {% endfor %}
           </ul>
         </nav>
         <!-- partial -->

@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'surveys/', include('survey.urls')),
     url(r'libs/', include('libs.urls')),
     url(r'dashboard/', include('dashboard.urls')),
+    url(r'client/', include('client.urls')),
 
 ]
 

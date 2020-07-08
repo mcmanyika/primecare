@@ -22,10 +22,12 @@ class t_questionnaire(models.Model):
         ('Nausea and vomiting', 'Nausea and vomiting'),
         ('Headache', 'Headache'),
         ('Diarrhea', 'Diarrhea'),
+        ('Fatigue', 'Fatigue'),
         ('New onset of congestion or runny nose',
          'New onset of congestion or runny nose'),
         ('None of the above', 'None of the above')
     )
+    q1 = models.BooleanField()
     q2 = models.BooleanField()
     q3 = models.BooleanField()
     q4 = models.BooleanField()
