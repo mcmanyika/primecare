@@ -15,13 +15,6 @@ class EmployeeSignOutForm(forms.ModelForm):
         fields = ["Daily_Logout_ID", "PatientID",  'user']
 
 
-class EvaluationForm(forms.ModelForm):
-    class Meta:
-        model = t_evaluation
-        fields = ["rootid", "employee_id", "scheduled_date",
-                  "evaluated_date", "status",  'user']
-
-
 class ExclusionForm(forms.ModelForm):
     class Meta:
         model = t_oig

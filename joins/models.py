@@ -75,15 +75,3 @@ class t_client_attribute(models.Model):
         return 't_client_attribute {}'.format(self.id)
 
 
-class t_evaluation(models.Model):
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE, default='1')
-    employee_id = models.IntegerField(null=True, blank=True)
-    scheduled_date = models.DateField()
-    evaluated_date = models.DateField()
-    status = models.CharField(max_length=10, null=True, blank=True)
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_visit_tracker {}'.format(self.id)
