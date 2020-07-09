@@ -1,0 +1,52 @@
+ {% load static %}
+ <script>
+      function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("navbar-search-input");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#navbar-search-input").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("#myDIV *").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+    </script>
+
+    <!-- plugins:js -->
+    <script src="{% static 'dash/js/bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'dash/Chart.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'dash/js/off-canvas.js' %}"></script>
+    <script src="{% static 'dash/js/hoverable-collapse.js' %}"></script>
+    <script src="{% static 'dash/js/template.js' %}"></script>
+    <script src="{% static 'dash/js/settings.js' %}"></script>
+    <script src="{% static 'dash/js/todolist.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="{% static 'dash/js/dashboard.js' %}"></script>
+    <!-- End custom js for this page-->
+    <!-- Custom js for this page-->
+    <script src="{% static 'dash/js/modal-demo.js' %}"></script>
