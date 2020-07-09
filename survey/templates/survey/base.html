@@ -12,6 +12,8 @@
       <div class="topnav">
         <a href="{% url 'covid' %}" class="active">Primecare Services</a>
         <div id="myLinks" style="font-weight: 100;">
+        <a href="{% if request.user.is_staff %}{% url 'client' %}{%else %}{% url 'covid' %}{% endif %}">Staff Dashboard</a>
+
           <a href="{% url 'success' %}">Contact Us</a>
           <a href="{% url 'logout' %}">Logout</a>
         </div>
