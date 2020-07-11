@@ -10,6 +10,9 @@
     display: none;
     color:red;
 }
+.text {
+  font-weight: 100;
+}
           </style>
 
 <script>
@@ -24,13 +27,13 @@
       <!-- Top Navigation Menu -->
       <div class="topnav">
         <a href="{% url 'covid' %}" class="active">Primecare Services</a>
-        <div id="myLinks" style="font-weight: 100;">
-          {% if request.user.is_staff %}
+        <div id="myLinks">
+          <!-- {% if request.user.is_staff %}
         <a href="{% url 'client' %}">Staff Dashboard</a>
-        {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %}
+        {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %} -->
 
-          <a href="{% url 'success' %}">Contact Us</a>
-          <a href="{% url 'logout' %}">Logout</a>
+          <a href="{% url 'success' %}" class="text">Contact Us</a>
+          <a href="{% url 'logout' %}" class="text">Logout</a>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
           <i class="fa fa-bars"></i>

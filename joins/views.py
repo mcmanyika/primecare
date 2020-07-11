@@ -48,10 +48,11 @@ def register_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                if user.is_superuser:
+                user_p = get_object_or_404(t_accts, rootid=request.user.id)
+                if user_p.status == 'Active':
                     return HttpResponseRedirect('/questions/covid/')
                 else:
-                    return HttpResponseRedirect('/libs/employee-signin/')
+                    return HttpResponseRedirect('/questions/pending/')
             else:
                 messages.success(request, "Enter correct username or password")
 

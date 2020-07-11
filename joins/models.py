@@ -29,7 +29,8 @@ class UserProfile(models.Model):
 
 
 class t_accts(models.Model):
-
+    root = models.ForeignKey(User, on_delete=models.CASCADE, default='555')
+    rootid = models.IntegerField(default=1000, null=True, blank=True)
     fname = models.CharField(max_length=20, null=True, blank=True)
     middle_name = models.CharField(max_length=20, null=True, blank=True)
     lname = models.CharField(max_length=20, null=True, blank=True)
@@ -41,6 +42,7 @@ class t_accts(models.Model):
     email = models.CharField(max_length=50, default='', null=True, blank=True)
     emergency_contact = models.CharField(max_length=100, null=True, blank=True)
     account_type = models.CharField(max_length=40, null=True, blank=True)
+    status = models.CharField(max_length=10, null=True, blank=True)
     user = models.IntegerField(default=1, null=True, blank=True)
 
     def get_absolute_url(self):

@@ -45,3 +45,11 @@ def success(request):
     template = "questions/success.html"
 
     return render(request, template, context)
+
+
+def pending(request):
+    context = {
+    }
+    template = "questions/pending.html"
+
+    return render(request, template, context)

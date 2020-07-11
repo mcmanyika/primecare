@@ -10,7 +10,6 @@ from .models import *
 User = get_user_model()
 
 
-
 class AvatarForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -19,24 +18,29 @@ class AvatarForm(forms.ModelForm):
             'rootid',
             'gender',
             'phone',
-            ]
+        ]
+
 
 class AcctForm(forms.ModelForm):
     class Meta:
         model = t_accts
         fields = [
+            'root',
             'fname',
             'lname',
             'gender',
             'phone',
             'account_type',
+            'status',
             'user',
-            ]
+        ]
+
 
 class EditAcctForm(forms.ModelForm):
     class Meta:
         model = t_accts
         fields = [
+            'root',
             'fname',
             'middle_name',
             'lname',
@@ -46,7 +50,9 @@ class EditAcctForm(forms.ModelForm):
             'address',
             'emergency_contact',
             'email',
-            ]
+            'status',
+        ]
+
 
 class EditClientAttributeForm(forms.ModelForm):
     class Meta:
@@ -55,27 +61,25 @@ class EditClientAttributeForm(forms.ModelForm):
             'client_number',
             'company',
             'soc',
-            ]
-
-
+        ]
 
 
 class UserForm(forms.ModelForm):
-    
+
     class Meta:
         model = UserProfile
         fields = [
             'rootid',
             'gender',
             'avatar',
-            ]
-   
+        ]
 
 
 class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField(label='Email address')
     email2 = forms.EmailField(label='Confirm Email')
     password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
         model = User
         fields = [
@@ -85,7 +89,6 @@ class UserRegisterForm(forms.ModelForm):
             'password',
         ]
 
-
     def clean_email2(self):
         email = self.cleaned_data.get('email')
         email2 = self.cleaned_data.get('email2')
@@ -94,22 +97,27 @@ class UserRegisterForm(forms.ModelForm):
 
         email_qs = User.objects.filter(email=email)
         if email_qs.exists():
-            raise forms.ValidationError("This email has already been registered")
+            raise forms.ValidationError(
+                "This email has already been registered")
         return email
 
 
-
 class SignUpForm(UserCreationForm):
-    username = forms.CharField(max_length=30, required=False, widget = forms.TextInput(attrs={'class' : 'form-control form-control-sm','placeholder':'Username'}), label='')
-    
-    first_name = forms.CharField(max_length=30, required=False, widget = forms.TextInput(attrs={'class' : 'form-control form-control-sm','placeholder':'First Name'}), label='')
-    last_name = forms.CharField(max_length=30, required=False, widget = forms.TextInput(attrs={'class' : 'form-control form-control-sm','placeholder':'Last Name'}), label='')
-    email = forms.EmailField(max_length=254, required=False,  widget = forms.TextInput(attrs={'class' : 'form-control form-control-sm','placeholder':'Email'}), label='')
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'form-control form-control-sm','placeholder':'Password'}), label='')
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class' : 'form-control form-control-sm','placeholder':'Repeat Password'}), label='')
+    username = forms.CharField(max_length=30, required=False, widget=forms.TextInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'Username'}), label='')
+
+    first_name = forms.CharField(max_length=30, required=False, widget=forms.TextInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'First Name'}), label='')
+    last_name = forms.CharField(max_length=30, required=False, widget=forms.TextInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'Last Name'}), label='')
+    email = forms.EmailField(max_length=254, required=False,  widget=forms.TextInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'Email'}), label='')
+    password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'Password'}), label='')
+    password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control form-control-sm', 'placeholder': 'Repeat Password'}), label='')
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )
-
-
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'password1', 'password2', )
