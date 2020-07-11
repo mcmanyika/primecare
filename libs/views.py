@@ -21,8 +21,8 @@ from libs.forms import *
 from joins.forms import *
 from client.models import *
 from client.forms import *
-from survey.models import *
-from survey.forms import *
+from questions.models import *
+from questions.forms import *
 
 
 # Create your views here.

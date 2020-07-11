@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'client',
     'dashboard',
     'crispy_forms',
-    'survey',
+    'questions',
 
 ]
 

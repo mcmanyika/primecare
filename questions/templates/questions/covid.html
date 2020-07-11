@@ -1,0 +1,187 @@
+{% extends "questions/base.html" %} {% load static %} {% block content %}
+
+<div class="container">
+ 
+
+
+  <form
+    id="regForm"
+    method="post"
+    name="form"
+    action=""
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %}
+
+    <div class="tab">
+      <div class="col-12">
+        <p>
+          <h5>
+        In the last 14 days have you recently travelled to a COVID-19-affected
+        geographic area inside or outside USA?
+        </h5>
+        </p>
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q1}} Click if yes
+        </ul>
+        <hr>
+      </div>
+      <div class="col-12">
+        <p>
+          <h5>
+        In the last 14 days have you been in contact with any person who has
+        travelled outside the USA?
+        </h5>
+        </p>
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q2}} Click if yes
+        </ul>
+        <hr>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="col-12">
+        <p>
+          <h5>
+            In the last 14 days have been in CLOSE CONTACT with someone
+            diagnosed with COVID-19 or ill with a respiratory illness?
+          </h5>
+        </p>
+        <div class="col-12">
+          The CDC defines "close contact" as
+          <p>
+            a) being within approximately 6 ft. of a person with COVID-19 for a
+            prolonged period of time (such as caring for someone with COVID in
+            your home); or
+          </p>
+          <p>
+            b) having unprotected direct contact (less than 6ft.) with
+            infectious secretions or excretions with someone with COVID-19
+            (e.g., being coughed on, touching used tissues with a bare hand).
+          </p>
+        </div>
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q3}} Click if yes
+        </ul>
+        <hr>
+      </div>
+      <div class="col-12">
+        <p>
+          <h5>
+        Have you been told by a health care provider you might have COVID-19?
+        </h5>
+        </p>
+      </div>
+      <div class="col-12 pad">
+        <ul>
+          {{form.q4}} Click if yes
+        </ul>
+        <hr>
+      </div>
+    </div>
+
+    <div class="tab">
+      <div class="col-12">
+        <p>
+          <h5>
+            Are you experiencing NEW onset of the following symptoms?
+        </h5>
+        </p>
+      </div>
+      <div class="col-12 pad">
+        {{form.q5}}
+        <hr>
+      </div>
+    </div>
+
+    <div class="tab">
+      <div class="col-12">
+        <p>
+          <h5>
+            What is your current temperature? (Check one)
+        </h5>
+        </p>
+      </div>
+      <div class="col-12 pad">
+        <div class="form-check-inline">
+          <label class="form-check-label" for="radio1">
+            <input type="radio" class="form-check-input" id="radio1" name="q6" value="Below 99*F" checked>Below 99*F
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <label class="form-check-label" for="radio2">
+            <input type="radio" class="form-check-input" id="radio2" name="q6" value="Between 99 -100.2*F">Between 99 -100.2*F
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <label class="form-check-label" for="radio3">
+            <input type="radio" class="form-check-input" id="radio3" name="q6" value="Over 100.2 *F">Over 100.2 *F
+          </label>
+        </div>
+        <div class="form-check-inline">
+          <label class="form-check-label" for="radio4">
+            <input type="radio" class="form-check-input" id="radio4" name="q6" value="I do not have  a thermometer">​I do not have  a thermometer
+          </label>
+        </div>
+        
+        <hr>
+      </div>
+      
+      <div class="col-12 pad">
+        <p>
+        <h5>Do you have any fever ( Check Yes or NO)</h5>
+        <select name="q7" onchange="showDiv('hidden_div', this)" class="form-control">
+           <option value="No">No</option>
+           <option value="Yes">Yes</option>
+        </select></p><br />
+        <div id="hidden_div">
+          <p>
+            DO NOT REPORT TO WORK (CHECK THE BOX BELOW)*<br />
+            Your responses indicate one (1) or more of the following:
+            - You are currently experiencing symptoms of COVID-19
+            - You have been in close contact with someone with COVID-19 or with COVID-19 symptoms
+             <br /><br />
+            1. Stay home and notify your supervisor that you failed the COVID-19 Self-Screening. In order to return to work you must be free of symptoms without medication for 72 hours. *Please note that you should continue to follow your departments call-in procedure to report your status.
+            2. If you are symptomatic for more than 3 sick days, call the Administrator  (214 -560-8247) or Office Manager (817-676-8416) for further instructions  on requirements prior to returning to the worksite.
+            3. Monitor your symptoms and seek immediate medical attention if they worsen.
+          </p>
+        </div>
+
+
+      </div>
+
+
+
+      <div class="col-12 pad" style="text-align: center;">
+        <button id="submit" type="submit" class="btn btn-info btn-lg">
+          Submit
+        </button>
+        <input type="hidden" name="user" value="{{ request.user.id }}" />
+      </div>
+    </div>
+    <div style="overflow: auto;">
+      <div style="float: right;">
+        <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+          Previous
+        </button>
+        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      </div>
+    </div>
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align: center; margin-top: 40px;">
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+    </div>
+  </form>
+</div>
+
+
+{% endblock %}

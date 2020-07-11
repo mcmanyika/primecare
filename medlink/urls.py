@@ -9,7 +9,7 @@ from libs.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('joins.urls')),
-    url(r'surveys/', include('survey.urls')),
+    url(r'questions/', include('questions.urls')),
     url(r'libs/', include('libs.urls')),
     url(r'dashboard/', include('dashboard.urls')),
     url(r'client/', include('client.urls')),

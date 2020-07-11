@@ -49,7 +49,7 @@ def register_view(request):
             if user.is_active:
                 login(request, user)
                 if user.is_superuser:
-                    return HttpResponseRedirect('/surveys/covid/')
+                    return HttpResponseRedirect('/questions/covid/')
                 else:
                     return HttpResponseRedirect('/libs/employee-signin/')
             else:
@@ -154,4 +154,3 @@ def change_password(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/')
-
