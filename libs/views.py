@@ -392,17 +392,18 @@ def client(request):
 
                                 """)
 
-    paginator = Paginator(accts, 100)  # Show 25 contacts per page
-    page_request_var = "page"
-    page = request.GET.get('page')
-    try:
-        queryset = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        queryset = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        queryset = paginator.page(paginator.num_pages)
+    # paginator = Paginator(accts, 40)  # Show 25 contacts per page
+
+    # page_request_var = "page"
+    # page = request.GET.get('page')
+    # try:
+    #     queryset = paginator.page(page)
+    # except PageNotAnInteger:
+    #     # If page is not an integer, deliver first page.
+    #     queryset = paginator.page(1)
+    # except EmptyPage:
+    #     # If page is out of range (e.g. 9999), deliver last page of results.
+    #     queryset = paginator.page(paginator.num_pages)
 
     query = request.GET.get("q")
     if query:
@@ -470,7 +471,7 @@ def client(request):
         "billform": billform,
         "BillingTracker": BillingTracker,
         "billinghistory": billinghistory,
-        "accts": queryset,
+        "accts": accts,
         "last_billed": last_billed,
         "gender": c,
         "totalMen": totalMen,
