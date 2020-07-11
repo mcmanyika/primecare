@@ -18,11 +18,13 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
+from libs.models import *
 
 # Create your views here.
 
 
 def covid(request):
+    user = get_object_or_404(t_accts, rootid=request.user.id)
 
     form = CovidForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -32,6 +34,7 @@ def covid(request):
         return HttpResponseRedirect('/questions/success/')
 
     context = {
+        "user" : user,
         'form': form,
     }
     template = "questions/covid.html"
@@ -40,7 +43,9 @@ def covid(request):
 
 
 def success(request):
+    user = get_object_or_404(t_accts, rootid=request.user.id)
     context = {
+        "user" : user,
     }
     template = "questions/success.html"
 
@@ -48,7 +53,11 @@ def success(request):
 
 
 def pending(request):
+    user = get_object_or_404(t_accts, rootid=request.user.id)
+    
+
     context = {
+        "user" : user,
     }
     template = "questions/pending.html"
 
