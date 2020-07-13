@@ -26,6 +26,8 @@ from libs.models import *
 @login_required(login_url='/accounts/login/')
 def covid(request):
     user = get_object_or_404(t_accts, rootid=request.user.id)
+    if user.status == 'NonActive':
+        return HttpResponseRedirect('/success/')
 
     form = CovidForm(request.POST or None, request.FILES or None)
     if form.is_valid():
