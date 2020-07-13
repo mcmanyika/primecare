@@ -23,6 +23,7 @@ from libs.models import *
 # Create your views here.
 
 
+@login_required(login_url='/accounts/login/')
 def covid(request):
     user = get_object_or_404(t_accts, rootid=request.user.id)
 
@@ -31,10 +32,10 @@ def covid(request):
         f = form.save(commit=False)
         f.save()
         messages.success(request, "Saved")
-        return HttpResponseRedirect('/questions/success/')
+        return HttpResponseRedirect('/success/')
 
     context = {
-        "user" : user,
+        "user": user,
         'form': form,
     }
     template = "questions/covid.html"
@@ -45,7 +46,7 @@ def covid(request):
 def success(request):
     user = get_object_or_404(t_accts, rootid=request.user.id)
     context = {
-        "user" : user,
+        "user": user,
     }
     template = "questions/success.html"
 
@@ -54,10 +55,9 @@ def success(request):
 
 def pending(request):
     user = get_object_or_404(t_accts, rootid=request.user.id)
-    
 
     context = {
-        "user" : user,
+        "user": user,
     }
     template = "questions/pending.html"
 

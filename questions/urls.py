@@ -6,9 +6,10 @@ from .views import *
 
 urlpatterns = [
 
-    url(r'covid/', covid, name='covid'),
+
     url(r'success/', success, name='success'),
     url(r'pending/', pending, name='pending'),
+    url(r'', covid, name='covid'),
 
 ]
 

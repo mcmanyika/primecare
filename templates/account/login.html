@@ -1,0 +1,75 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<div class="col-lg-12 d-flex align-items-center justify-content-center">
+              <div class="auth-form-transparent text-left p-3">
+                <div class="brand-logo text-center">
+                  <img src="{% static 'img/logo.png' %}" alt="logo" />
+                </div>
+
+<div class="card-header pb-1">
+    <div class="card-title">
+        <h4 class="text-center mb-2">{% trans "Welcome Back" %}</h4>
+    </div>
+</div>
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+{% endif %}
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  <div class="form-group">
+      <input type="text" name="login" id="id_login" tabindex="1" class="form-control form-control-lg" placeholder="Username" value="">
+  </div>
+  <div class="form-group">
+      <input type="password" name="password" id="id_password" tabindex="2" class="form-control input-lg" placeholder="Password">
+  </div>
+  <div class="form-group">
+      <div class="w3-row">
+          <div class="w3-col m12">
+              <div class="text-center">
+                  <p><a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="form-group">
+      <div class="row">
+          <div class="col-md-12">
+              <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-info" value="Log In">
+          </div>
+      </div>
+  </div>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+</form>
+<hr>
+<div class="text-center"><small class="mr-25">Don't have an account?</small>
+ <a href="{{ signup_url }}"><small>Sign up</small></a></div>
+</div>
+{% endblock %}

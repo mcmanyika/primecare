@@ -4,6 +4,16 @@ from libs.models import *
 # Register your models here.
 
 
+class AcctsAdmin(admin.ModelAdmin):
+    list_display = ['rootid', 'gender', 'dob']
+
+    class Meta:
+        model = t_accts
+
+
+admin.site.register(t_accts, AcctsAdmin)
+
+
 class ClientAdmin(admin.ModelAdmin):
     list_display = ['PatientID']
 
@@ -82,4 +92,3 @@ class ResourcesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(t_resources, ResourcesAdmin)
-

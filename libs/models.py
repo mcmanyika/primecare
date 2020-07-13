@@ -14,6 +14,23 @@ def upload_location(instance, filename):
     return "%s/%s" % (instance.id, filename)
 
 
+class t_accts(models.Model):
+    rootid = models.ForeignKey(User, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=10, null=True, blank=True)
+    dob = models.CharField(max_length=15, null=True, blank=True)
+    phone = models.CharField(max_length=25, default='', null=True, blank=True)
+    address = models.CharField(
+        max_length=100, default='', null=True, blank=True)
+    email = models.CharField(max_length=50, default='', null=True, blank=True)
+    emergency_contact = models.CharField(max_length=100, null=True, blank=True)
+    account_type = models.CharField(max_length=40, null=True, blank=True)
+    status = models.CharField(max_length=10, null=True, blank=True)
+    user = models.IntegerField(default=1, null=True, blank=True)
+
+    def __unicode__(self):
+        return 't_accts {}'.format(self.id)
+
+
 class t_patient_acct(models.Model):
 
     fname = models.CharField(max_length=10, null=True, blank=True)
@@ -147,4 +164,3 @@ class t_sub_resources(models.Model):
 
     def __unicode__(self):
         return 't_sub_resources {}'.format(self.id)
-
