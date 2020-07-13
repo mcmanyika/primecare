@@ -25,7 +25,7 @@ class AcctForm(forms.ModelForm):
     class Meta:
         model = t_accts
         fields = [
-            'root',
+            'rootid',
             'fname',
             'lname',
             'gender',
@@ -40,7 +40,7 @@ class EditAcctForm(forms.ModelForm):
     class Meta:
         model = t_accts
         fields = [
-            'root',
+            'rootid',
             'fname',
             'middle_name',
             'lname',

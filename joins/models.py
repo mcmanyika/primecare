@@ -29,7 +29,6 @@ class UserProfile(models.Model):
 
 
 class t_accts(models.Model):
-    root = models.ForeignKey(User, on_delete=models.CASCADE, default='555')
     rootid = models.IntegerField(default=1000, null=True, blank=True)
     fname = models.CharField(max_length=20, null=True, blank=True)
     middle_name = models.CharField(max_length=20, null=True, blank=True)

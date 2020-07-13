@@ -2,6 +2,7 @@
 from multiselectfield import MultiSelectField
 
 from django.db import models
+from joins.models import *
 
 # Create your models here.
 
@@ -27,7 +28,8 @@ class t_questionnaire(models.Model):
          'New onset of congestion or runny nose'),
         ('None of the above', 'None of the above')
     )
-
+    rootid = models.ForeignKey(
+        t_accts, on_delete=models.CASCADE, default='1000')
     q1 = models.BooleanField()
     q2 = models.BooleanField()
     q3 = models.BooleanField()
