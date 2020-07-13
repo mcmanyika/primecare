@@ -32,7 +32,7 @@ class t_questionnaire(models.Model):
     q2 = models.BooleanField()
     q3 = models.BooleanField()
     q4 = models.BooleanField()
-    q5 = MultiSelectField(choices=QUESTION_CHOCE)
+    q5 = MultiSelectField(choices=QUESTION_CHOCE, null=True, blank=True)
     q6 = models.CharField(max_length=40)
     q7 = models.CharField(max_length=10)
     user = models.IntegerField()
