@@ -106,24 +106,24 @@ def staff(request):
                                     """)
 
     VisitTracker = t_visit_tracker.objects.all().order_by('-id')
-    accts = t_accts.objects.raw("""SELECT a.id, ea.rootid_id, a.fname, a.lname, a.dob, a.gender, a.phone, 
+    accts = t_accts.objects.raw("""SELECT a.id, ea.rootid_id, a.dob, a.gender, a.phone, 
 									 a.address,ea.doh,
 									 a.emergency_contact, ea.employee_id, a.account_type
 									FROM joins_t_accts a
 									INNER JOIN joins_t_employee_attribute ea ON ea.rootid_id = a.id
                                 """)
 
-    paginator = Paginator(accts, 100)  # Show 25 contacts per page
-    page_request_var = "page"
-    page = request.GET.get('page')
-    try:
-        queryset = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        queryset = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        queryset = paginator.page(paginator.num_pages)
+    # paginator = Paginator(accts, 100)  # Show 25 contacts per page
+    # page_request_var = "page"
+    # page = request.GET.get('page')
+    # try:
+    #     queryset = paginator.page(page)
+    # except PageNotAnInteger:
+    #     # If page is not an integer, deliver first page.
+    #     queryset = paginator.page(1)
+    # except EmptyPage:
+    #     # If page is out of range (e.g. 9999), deliver last page of results.
+    #     queryset = paginator.page(paginator.num_pages)
 
     billinghistory = t_bill.objects.raw("""SELECT b.id, b.client_number, b.billing_date
                                             FROM client_t_bill b
@@ -156,7 +156,7 @@ def staff(request):
 
     context = {
         "dictionary": dictionary,
-        "accts": queryset,
+        "accts": accts,
         "VisitTracker": VisitTracker,
         "url": url,
         "sub_url": sub_url,

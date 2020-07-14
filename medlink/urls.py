@@ -9,7 +9,6 @@ from questions.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # url(r'^', include('joins.urls')),
     path('accounts/', include('allauth.urls')),
 
     url(r'libs/', include('libs.urls')),

@@ -5,11 +5,9 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
-
-
     url(r'success/', success, name='success'),
     url(r'pending/', pending, name='pending'),
-    url(r'', covid, name='covid'),
+    url(r'^', covid, name='covid'),
 
 ]
 

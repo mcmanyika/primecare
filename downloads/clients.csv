@@ -1,5 +1,0 @@
-id,fname,lname,gender,dob,phone,ssn,client_number,soc,emergency_contact,user,timestamp,updated,middle_name,address
-1,Marcus,Parham,Male,1960-05-22,972-333-1718,346-54-8751,525473765,2018-07-17,Michelle Simpson (214) 972-2028,1,2019-10-11 20:50:29.109327,2019-10-11 21:13:29.634041,Andre,"3810 Cedar Lake Drive, Apt 107, Dallas Tx 75057"
-2,Bobby,Davis,Male,1955-02-04,214-498-1486,569-98-5975,507375049,2018-10-31,Betty Sue Davis (976) 613-7697,1,2019-10-11 21:17:24.346919,2019-10-11 21:17:24.346919,,"8515 Park Lane, Apt 1309, Dallas, Tx 75321"
-4,Enrique,Maldonado,Male,1970-03-14,469-329-8959 (M),467-41-7833,527822776,2018-11-06,,1,2019-10-13 22:30:21.433637,2019-10-13 22:30:21.433637,,"4012 Linda Ln, Balch Springs, Tx 75180"
-5,Charlotte,Jones,Female,1949-09-22,972-905-5327 (M),TBA,507313391,2018-11-20,,1,2019-10-13 22:39:36.319793,2019-10-13 22:39:36.319793,,"310 N Beltline Rd, Garland, Tx 75040"
