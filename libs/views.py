@@ -36,6 +36,23 @@ def dictfetchall(cursor):
     ]
 
 
+def Userprofile(request):
+
+    form = ProfileForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/success/')
+
+    context = {
+        "form": form,
+    }
+
+    template = "libs/profile.html"
+    return render(request, template, context)
+
+
 def employee_signin(request):
 
     staff = t_accts.objects.raw("""SELECT a.id, a.fname, a.lname
@@ -106,53 +123,14 @@ def staff(request):
                                     """)
 
     VisitTracker = t_visit_tracker.objects.all().order_by('-id')
+
     accts = t_accts.objects.raw("""SELECT a.id, ea.rootid_id, a.dob, a.gender, a.phone, 
 									 a.address,ea.doh,
-									 a.emergency_contact, ea.employee_id, a.account_type
+									 a.emergency_contact, ea.employee_id, a.account_type, a.status
 									FROM joins_t_accts a
 									INNER JOIN joins_t_employee_attribute ea ON ea.rootid_id = a.id
+                                    WHERE a.status= 'Active'
                                 """)
-
-    # paginator = Paginator(accts, 100)  # Show 25 contacts per page
-    # page_request_var = "page"
-    # page = request.GET.get('page')
-    # try:
-    #     queryset = paginator.page(page)
-    # except PageNotAnInteger:
-    #     # If page is not an integer, deliver first page.
-    #     queryset = paginator.page(1)
-    # except EmptyPage:
-    #     # If page is out of range (e.g. 9999), deliver last page of results.
-    #     queryset = paginator.page(paginator.num_pages)
-
-    billinghistory = t_bill.objects.raw("""SELECT b.id, b.client_number, b.billing_date
-                                            FROM client_t_bill b
-                                            ORDER BY b.id Desc""")
-
-    c = connection.cursor()
-    c.cursor.execute("""SELECT a.id , count(a.id) as count, a.gender
-                                     FROM joins_t_accts a
-                                    INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
-                                     GROUP BY a.gender""")
-    c = dictfetchall(c)
-    totalFemale = c[0]['count'] if c else 0
-    totalMen = c[1]['count'] if c else 0
-    totalCount = (totalFemale + totalMen)
-
-    ta = connection.cursor()
-    ta.cursor.execute("""SELECT b.id, sum(b.amount_billed) as total_billed, sum(b.amount_paid) as total_paid
-                         FROM client_t_billing_tracker b
-                      """)
-    ta = dictfetchall(ta)
-    total_billed = ta[0]['total_billed'] if ta else 0
-    total_paid = ta[0]['total_paid'] if ta else 0
-
-    if total_billed and total_paid:
-        balance = (total_billed - total_paid)
-    else:
-        balance = 0
-        total_paid = 0
-        total_billed = 0
 
     context = {
         "dictionary": dictionary,
@@ -160,15 +138,10 @@ def staff(request):
         "VisitTracker": VisitTracker,
         "url": url,
         "sub_url": sub_url,
-        "balance": balance,
-        "total_paid": total_paid,
-        "total_billed": total_billed,
-        "totalMen": totalMen,
-        "totalFemale": totalFemale,
 
     }
 
-    template = "staff.html"
+    template = "libs/staff.html"
 
     return render(request, template, context)
 
@@ -217,12 +190,15 @@ def staff_detail(request, id):
         "address": instance.address,
         "email": instance.email,
         "emergency_contact": instance.emergency_contact,
+        "account_type": instance.account_type,
+        "status": instance.status,
+
 
         "client": client,
 
     }
 
-    template = "staff_detail.html"
+    template = "libs/staff_detail.html"
 
     return render(request, template, context)
 
@@ -532,6 +508,8 @@ def client_detail(request, id):
         "phone": instance.phone,
         "address": instance.address,
         "emergency_contact": instance.emergency_contact,
+        "account_type": instance.account_type,
+        "status": instance.status,
         "billinghistory": billinghistory,
 
     }

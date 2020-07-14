@@ -1,7 +1,7 @@
 {% extends "w3baseBlank.html" %} {% load static %} {% load crispy_forms_tags %}
 {% block content %}
 <div class="row">
-  <div class="col-sm-8">
+  <div class="col-sm-6">
     <h1>
       {{fname}} {% if middle_name %}{{middle_name}} {% else %}{% endif %}
       {{lname}}
@@ -11,6 +11,8 @@
     <label>Phone Number </label> : {{phone}} <br />
     <label>Address</label> : {{address}} <br /><br />
     <label>Emergency Contact</label> : {{emergency_contact}} <br />
+    <label>Account Type</label> : {{account_type}} <br />
+    <label>Status</label> : {{status}} <br />
   </div>
   <div class="col-sm-4" style="padding: 20px;">
     <a href="#profile{{id}}" data-toggle="modal"
@@ -39,7 +41,7 @@
         </button>
       </div>
       <div class="modal-body" height="400">
-        <div style="padding: 50px;">
+        <div>
           <form
             method="post"
             name="EditAcctform"
@@ -49,7 +51,7 @@
             {% csrf_token %}
             <div class="row">
               <div class="col-sm-4">
-                {{EditAcctform.fname|as_crispy_field }}
+                {{EditAcctform.fname|as_crispy_field }} 
               </div>
 
               <div class="col-sm-4">
@@ -58,7 +60,7 @@
               <div class="col-sm-4">
                 {{EditAcctform.lname|as_crispy_field }}
               </div>
-
+              
               <div class="col-sm-6">
                 {{EditAcctform.gender|as_crispy_field }}
               </div>
@@ -72,8 +74,14 @@
               <div class="col-sm-6">
                 {{EditAcctform.emergency_contact|as_crispy_field }}
               </div>
-              <div class="col-sm-12">
-                <button type="submit" class="btn btn-info btn-md">
+               <div class="col-sm-6">
+                {{EditAcctform.account_type|as_crispy_field }}
+              </div> 
+              <div class="col-sm-6">
+                {{EditAcctform.status|as_crispy_field }}
+              </div>
+              <div class="col-sm-6"><h1></h1>
+                <button type="submit" class="btn btn-success btn-lg">
                   Update Profile
                 </button>
               </div>

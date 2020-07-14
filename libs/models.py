@@ -15,16 +15,27 @@ def upload_location(instance, filename):
 
 
 class t_accts(models.Model):
+    ACCOUNT_TYPE = (
+        ('Attendant', 'Attendant'),
+        ('Client', 'Client'),
+        ('Staff', 'Staff'),
+    )
+    STATUS = (
+        ('Active', 'Active'),
+        ('NoneActive', 'NoneActive'),
+    )
     rootid = models.ForeignKey(User, on_delete=models.CASCADE)
     gender = models.CharField(max_length=10, null=True, blank=True)
-    dob = models.CharField(max_length=15, null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=25, default='', null=True, blank=True)
     address = models.CharField(
         max_length=100, default='', null=True, blank=True)
-    email = models.CharField(max_length=50, default='', null=True, blank=True)
-    emergency_contact = models.CharField(max_length=100, null=True, blank=True)
-    account_type = models.CharField(max_length=40, null=True, blank=True)
-    status = models.CharField(max_length=10, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    emergency_contact = models.CharField(max_length=20, null=True, blank=True)
+    account_type = models.CharField(
+        choices=ACCOUNT_TYPE, max_length=40, null=True, blank=True)
+    status = models.CharField(
+        choices=STATUS, max_length=20, null=True, blank=True)
     user = models.IntegerField(default=1, null=True, blank=True)
 
     def __unicode__(self):

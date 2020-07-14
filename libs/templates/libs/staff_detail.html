@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="row" style="padding-top: 15px">
+<div class="row">
 		<ul class="nav nav-tabs">
 		  <li class="active"><a data-toggle="tab" href="#home">Profile</a></li>
 		  <li><a data-toggle="tab" href="#menu1">OIG Exclusion</a></li>
@@ -14,13 +14,13 @@
 		    <div class="row">
 				<div class="col-sm-6">
 				<h1>{{fname}} {% if middle_name %}{{middle_name}} {% else %}{% endif %} {{lname}}</h1>
-
-
 				<label>Gender</label> : {{gender}} <br />
 				<label>Phone Number </label> : {{phone}} <br />
 				<label>Address</label> : {{address}} <br /><br />
 				<label>Email</label> : {{email}} <br />
 				<label>Emergency Contact</label> : {{emergency_contact}} <br />
+				<label>Account Type</label> : {{account_type}} <br />
+				<label>Status</label> : {{status}} <br />
 			</div>
 			<div class="col-sm-4">
 				<table class="table table-striped table-hover" width="100%">
@@ -151,7 +151,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
 	    <div class="modal-body" height="400">
-	    	<div style="padding: 50px">
+	    	<div>
 	    	 <form  method="post" name="EditAcctform"  action="" enctype="multipart/form-data">{% csrf_token %}
 		    		<div class="row">
 				    	<div class="col-sm-4">
@@ -179,6 +179,13 @@
 				    	</div>
 				    	<div class="col-sm-6">
 				        		{{EditAcctform.emergency_contact|as_crispy_field }}
+				    	</div>
+
+						<div class="col-sm-6">
+				        	{{EditAcctform.account_type|as_crispy_field }}
+				    	</div>
+				    	<div class="col-sm-6">
+				        		{{EditAcctform.status|as_crispy_field }}
 				    	</div>
 
 				    	<div class="col-sm-12">

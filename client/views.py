@@ -19,14 +19,12 @@ from libs.forms import *
 
 # Create your views here.
 
+
 def employee_dash(request):
     client = t_care_giver.objects.raw("""SELECT c.id, c.fname, c.lname, tc.Daily_Login_ID, tc.user, tc.timestamp
                                          FROM client_t_client c
                                          INNER JOIN libs_client tc ON tc.PatientID = c.id
                                          WHERE tc.user = %s ORDER BY tc.timestamp DESC LIMIT 1; """, [request.user.id])
-    
-    
-
 
     form = EmployeeSignOutForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -36,15 +34,14 @@ def employee_dash(request):
         return HttpResponseRedirect('/')
 
     context = {
-       "form" : form,
-       "client" : client,
-        
-    }    
+        "form": form,
+        "client": client,
 
-    template = "client/employee_dash.html"    
+    }
+
+    template = "client/employee_dash.html"
 
     return render(request, template, context)
-
 
 
 
@@ -64,20 +61,22 @@ def billing_tracker(request):
                                                 ORDER BY bt.id Desc""")
 
     context = {
-    "accts": accts,
-    "BillingTracker" : BillingTracker,
-        
-    }    
+        "accts": accts,
+        "BillingTracker": BillingTracker,
 
-    template = "client/billing_tracker.html"    
+    }
+
+    template = "client/billing_tracker.html"
 
     return render(request, template, context)
+
 
 def billing_tracker_detail(request, id):
 
     instance = get_object_or_404(t_billing_tracker, id=id)
 
-    form = BillingTrackerForm(request.POST or None, request.FILES or None, instance=instance)
+    form = BillingTrackerForm(request.POST or None,
+                              request.FILES or None, instance=instance)
     if form.is_valid():
         f = form.save(commit=False)
         f.save()
@@ -85,11 +84,11 @@ def billing_tracker_detail(request, id):
         return HttpResponseRedirect('/confirmation/')
 
     context = {
-        "form" : form,
-        
-    }    
+        "form": form,
 
-    template = "client/billing_tracker_detail.html"    
+    }
+
+    template = "client/billing_tracker_detail.html"
 
     return render(request, template, context)
 
@@ -98,7 +97,8 @@ def edit_billing_tracker(request, id):
     dictionary = t_dict.objects.all()
     instance = get_object_or_404(t_billing_tracker, id=id)
 
-    form = EditBillingTrackerForm(request.POST or None, request.FILES or None, instance=instance)
+    form = EditBillingTrackerForm(
+        request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         f = form.save(commit=False)
         f.save()
@@ -106,21 +106,20 @@ def edit_billing_tracker(request, id):
         # return HttpResponseRedirect('/confirmation/')
 
     context = {
-        "dictionary" : dictionary,
-        "form" : form,
-        "claim_id" : instance.claim_id,
-        "service_date_from" : instance.service_date_from,
-        "service_date_to" : instance.service_date_to,
-        "rootid" : instance.rootid_id,
-        "client_number" : instance.client_number,
-        "payment_status" : instance.payment_status,
-        
-    }     
+        "dictionary": dictionary,
+        "form": form,
+        "claim_id": instance.claim_id,
+        "service_date_from": instance.service_date_from,
+        "service_date_to": instance.service_date_to,
+        "rootid": instance.rootid_id,
+        "client_number": instance.client_number,
+        "payment_status": instance.payment_status,
 
-    template = "client/edit_billing_tracker.html"    
+    }
+
+    template = "client/edit_billing_tracker.html"
 
     return render(request, template, context)
-
 
 
 def billing_delete(request, id):
@@ -128,16 +127,14 @@ def billing_delete(request, id):
     obj.delete()
 
     context = {
-        "object" : obj,
+        "object": obj,
     }
 
     template = "client/billing_delete.html"
 
     return render(request, template, context)
 
-
-
-def add_client (request):
+def add_client(request):
     client = t_client.objects.all().order_by('-id')
     dictionary = t_dict.objects.all()
 
@@ -147,18 +144,17 @@ def add_client (request):
         f.save()
         messages.success(request, "Saved")
         # return HttpResponseRedirect('/staff-dashboard/')
-
-
     context = {
-        "dictionary" : dictionary,
-       "client" : client,
-       "forms" : forms,
-        
-    }    
+        "dictionary": dictionary,
+        "client": client,
+        "forms": forms,
 
-    template = "add_clients.html"    
+    }
+
+    template = "add_clients.html"
 
     return render(request, template, context)
+
 
 def daily_logs(request):
     client = t_client.objects.all().order_by('-id')
@@ -172,12 +168,12 @@ def daily_logs(request):
                                          ORDER BY tc.id DESC """)
 
     context = {
-       "logs" : logs,
-       "client" : client,
-        
-    }    
+        "logs": logs,
+        "client": client,
 
-    template = "daily_logs.html"    
+    }
+
+    template = "daily_logs.html"
 
     return render(request, template, context)
 
@@ -198,14 +194,13 @@ def claims(request):
                                     FROM joins_t_accts a
                                     INNER JOIN joins_t_client_attribute ca ON ca.rootid_id = a.id
                                 """)
-   
 
     context = {
-    "claims": claims,
-    "accts" : accts,
-        
-    }    
+        "claims": claims,
+        "accts": accts,
 
-    template = "client/claims.html"    
+    }
+
+    template = "client/claims.html"
 
     return render(request, template, context)

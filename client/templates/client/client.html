@@ -1,24 +1,6 @@
 {% extends "dashboard/dash_base.html" %}
 {% load static %}
 {% block content %}
-<div class="pagination" style="padding-bottom: 20px; ">
-    <span class="step-links">
-        {% if accts.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ accts.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
-        </span>
-
-        {% if accts.has_next %}
-            <a href="?page={{ accts.next_page_number }}">next</a>
-            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-
 <div class="row">
   {% for rw in accts %}
       <div id="myDIV" class="col-md-3 grid-margin stretch-card">
@@ -42,26 +24,6 @@
         </div>
    {% endfor %} 
 </div>
-
-<div class="pagination">
-    <span class="step-links">
-        {% if accts.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ accts.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ accts.number }} of {{ accts.paginator.num_pages }}.
-        </span>
-
-        {% if accts.has_next %}
-            <a href="?page={{ accts.next_page_number }}">next</a>
-            <a href="?page={{ accts.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-
-
 
 {% for rw in accts %}
 <div id="Bill{{rw.id}}" class="modal fade" role="dialog">

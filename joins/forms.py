@@ -50,6 +50,7 @@ class EditAcctForm(forms.ModelForm):
             'address',
             'emergency_contact',
             'email',
+            'account_type',
             'status',
         ]
 

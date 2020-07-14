@@ -9,8 +9,6 @@ from joins.models import *
 
 class t_questionnaire(models.Model):
     QUESTION_CHOCE = (
-        ('Fever of 100 F (37.8 C)',
-         'Fever (if measured with a thermometer)'),
         ('Cough', 'Cough'),
         ('Shortness of Breath or difficulty breathing',
          'Shortness of Breath or difficulty breathing'),
