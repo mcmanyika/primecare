@@ -14,7 +14,7 @@ SECRET_KEY = '+g45%wa$s=4y+-p%v=lq=%&fs19e-28jt=n*&qy4x!4@w&zz47'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ['127.0.0.1', '161.35.195.36']
 else:
@@ -87,20 +87,26 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': os.path.join(BASE_DIR, 'dbLocal.sqlite3'),
         }
     }
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'bigboy',
-            'USER': 'site_admin',
-            'PASSWORD': 'focus@1',
-            'HOST': 'localhost',
-            'PORT': '',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'bigboy',
+    #         'USER': 'site_admin',
+    #         'PASSWORD': 'focus@1',
+    #         'HOST': 'localhost',
+    #         'PORT': '',
+    #     }
+    # }
 
 
 # Password validation
