@@ -23,6 +23,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 
+from joins.models import *
+from libs.models import *
+
 
 # Create your views here.
 
@@ -113,7 +116,7 @@ def Userprofile(request):
 
 
 def pending(request):
-    user = get_object_or_404(t_accts, rootid=request.user.id)
+    user = get_object_or_404(t_accounts, rootid=request.user.id)
 
     context = {
         "user": user,
@@ -183,3 +186,84 @@ def change_password(request):
 def Logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/login/')
+def staff(request):
+    dictionary = t_dict.objects.all()
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+
+    accts = t_accounts.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
+									 ea.address,
+									 ea.emergency_contact,  ea.account_type, ea.status
+									FROM auth_user a
+									INNER JOIN joins_t_accounts ea ON ea.rootid = a.id
+                                    WHERE ea.status= 'Active'
+                                """)
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "accts": accts,
+
+    }
+
+    template = "joins/staff.html"
+
+    return render(request, template, context)
+
+
+@login_required(login_url='/login/')
+def staff_detail(request, id):
+    dictionary = t_dict.objects.all()
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+    instance = get_object_or_404(t_accounts, rootid=id)
+    client = User.objects.raw("""SELECT u.id, u.first_name, u.last_name, a.rootid,
+                                a.dob, a.gender, a.phone, 
+                                a.address,
+                                a.emergency_contact, a.account_type, a.status
+                                FROM auth_user u
+                                INNER JOIN joins_t_accounts a ON a.rootid = u.id
+                                WHERE  a.id = %s """, [instance.id])
+
+    EditAcctform = EditAcctForm(
+        request.POST or None, request.FILES or None, instance=instance)
+    if EditAcctform.is_valid():
+        f = EditAcctform.save(commit=False)
+        f.save()
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "EditAcctform": EditAcctform,
+
+        "id": instance.id,
+        "gender": instance.gender,
+        "phone": instance.phone,
+        "address": instance.address,
+        "emergency_contact": instance.emergency_contact,
+        "account_type": instance.account_type,
+        "status": instance.status,
+
+
+        "client": client,
+
+    }
+
+    template = "joins/staff_detail.html"
+
+    return render(request, template, context)

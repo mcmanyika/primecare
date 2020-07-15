@@ -2,7 +2,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from joins.views import *
-from libs.views import *
+# from libs.views import *
 
 urlpatterns = [
     url(r'^user-profile/', Userprofile, name='user-profile'),
@@ -14,7 +14,11 @@ urlpatterns = [
     url(r'^signup-confirmation/$', signup_confirmation, name='signup-confirmation'),
     url(r'^user-img/$', user_img, name='user-img'),
 
-    url(r'^staff-dashboard/', staff_dashboard, name='staff-dashboard'),
+
+    url(r'^staff/', staff, name='staff'),
+
+    url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
+
 
 
     url(r'^$', register_view, name='login'),

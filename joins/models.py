@@ -28,7 +28,7 @@ class UserProfile(models.Model):
         return 'UserProfile {}'.format(self.id)
 
 
-class t_accts(models.Model):
+class t_accounts(models.Model):
     ACCOUNT_TYPE = (
         ('Attendant', 'Attendant'),
         ('Client', 'Client'),
@@ -64,12 +64,12 @@ class t_accts(models.Model):
         return reverse('acct-delete', kwargs={'id': self.id})
 
     def __unicode__(self):
-        return 't_accts {}'.format(self.id)
+        return 't_accounts {}'.format(self.id)
 
 
 class t_employee_attribute(models.Model):
 
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE)
+    rootid = models.IntegerField(default=1, null=True, blank=True)
     employee_id = models.CharField(max_length=15, null=True, blank=True)
     doh = models.CharField(max_length=15, null=True, blank=True)
     status = models.CharField(max_length=10, null=True, blank=True)
@@ -81,7 +81,7 @@ class t_employee_attribute(models.Model):
 
 class t_client_attribute(models.Model):
 
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE)
+    rootid = models.IntegerField(default=1, null=True, blank=True)
     client_number = models.CharField(max_length=15, null=True, blank=True)
     company = models.CharField(max_length=50, null=True, blank=True)
     soc = models.DateField()
@@ -93,7 +93,7 @@ class t_client_attribute(models.Model):
 
 
 class t_evaluation(models.Model):
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE, default='1')
+    rootid = models.IntegerField(default=1, null=True, blank=True)
     employee_id = models.IntegerField(null=True, blank=True)
     scheduled_date = models.DateField()
     evaluated_date = models.DateField()

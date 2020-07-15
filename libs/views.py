@@ -36,23 +36,6 @@ def dictfetchall(cursor):
     ]
 
 
-# def Userprofile(request):
-
-#     form = ProfileForm(request.POST or None, request.FILES or None)
-#     if form.is_valid():
-#         f = form.save(commit=False)
-#         f.save()
-#         messages.success(request, "Saved")
-#         return HttpResponseRedirect('/success/')
-
-#     context = {
-#         "form": form,
-#     }
-
-#     template = "joins/profile.html"
-#     return render(request, template, context)
-
-
 def employee_signin(request):
 
     staff = t_accts.objects.raw("""SELECT a.id, a.fname, a.lname

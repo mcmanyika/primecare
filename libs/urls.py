@@ -10,8 +10,8 @@ urlpatterns = [
     # url(r'^user-profile/', Userprofile, name='user-profile'),
 
     url(r'^add-staff/', add_staff, name='add-staff'),
-    url(r'^staff/', staff, name='staff'),
-    url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
+    # url(r'^staff/', staff, name='staff'),
+    # url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
 
     url(r'^client/', client, name='client'),
 

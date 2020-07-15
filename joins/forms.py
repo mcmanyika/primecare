@@ -23,11 +23,9 @@ class AvatarForm(forms.ModelForm):
 
 class AcctForm(forms.ModelForm):
     class Meta:
-        model = t_accts
+        model = t_accounts
         fields = [
             'rootid',
-            'fname',
-            'lname',
             'gender',
             'phone',
             'account_type',
@@ -38,12 +36,9 @@ class AcctForm(forms.ModelForm):
 
 class EditAcctForm(forms.ModelForm):
     class Meta:
-        model = t_accts
+        model = t_accounts
         fields = [
             'rootid',
-            'fname',
-            'middle_name',
-            'lname',
             'gender',
             'phone',
             'dob',
@@ -67,7 +62,7 @@ class EditClientAttributeForm(forms.ModelForm):
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = t_accts
+        model = t_accounts
         fields = ["rootid",  "gender", "dob", "phone", "address",
                   "emergency_contact", "account_type", "status", "user"]
 
