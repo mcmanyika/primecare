@@ -7,7 +7,7 @@ from client.views import *
 
 urlpatterns = [
 
-    url(r'^user-profile/', Userprofile, name='user-profile'),
+    # url(r'^user-profile/', Userprofile, name='user-profile'),
 
     url(r'^add-staff/', add_staff, name='add-staff'),
     url(r'^staff/', staff, name='staff'),

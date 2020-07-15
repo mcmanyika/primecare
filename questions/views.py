@@ -19,12 +19,14 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from libs.models import *
+from joins.models import *
 
 # Create your views here.
 
 
 @login_required(login_url='/accounts/login/')
 def covid(request):
+
     user = get_object_or_404(t_accts, rootid=request.user.id)
     if not user.status == 'Active':
         return HttpResponseRedirect('/pending/')

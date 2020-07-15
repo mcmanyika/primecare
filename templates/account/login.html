@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "joins/base.html" %}
 {% load static %}
 
 {% load i18n %}
@@ -55,7 +55,7 @@
   {% endif %}
 </form>
 <hr>
-{% comment %} <div class="text-center"><small class="mr-25">Don't have an account?</small>
- <a href="{{ signup_url }}"><small>Sign up</small></a></div>
-</div> {% endcomment %}
+<div class="text-center"><small class="mr-25">Don't have an account?</small>
+ <a href="{% url 'register-member' %}"><small>Sign up</small></a></div>
+</div> 
 {% endblock %}

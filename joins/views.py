@@ -85,7 +85,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect('/dashboard/main-dash/')
+            return HttpResponseRedirect('/joins/user-profile/')
     else:
         form = SignUpForm()
 
@@ -93,6 +93,34 @@ def register(request):
         "form": form,
     }
     return render(request, 'joins/register.html', context)
+
+
+def Userprofile(request):
+
+    form = ProfileForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        f = form.save(commit=False)
+        f.save()
+        messages.success(request, "Saved")
+        return HttpResponseRedirect('/joins/pending/')
+
+    context = {
+        "form": form,
+    }
+
+    template = "joins/profile.html"
+    return render(request, template, context)
+
+
+def pending(request):
+    user = get_object_or_404(t_accts, rootid=request.user.id)
+
+    context = {
+        "user": user,
+    }
+    template = "joins/pending.html"
+
+    return render(request, template, context)
 
 
 def signup(request):

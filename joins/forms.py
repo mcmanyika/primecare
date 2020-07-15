@@ -65,6 +65,13 @@ class EditClientAttributeForm(forms.ModelForm):
         ]
 
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = t_accts
+        fields = ["rootid",  "gender", "dob", "phone", "address",
+                  "emergency_contact", "account_type", "status", "user"]
+
+
 class UserForm(forms.ModelForm):
 
     class Meta:

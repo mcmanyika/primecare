@@ -1,0 +1,39 @@
+{% extends "questions/base.html" %} {% load static crispy_forms_tags %} {% block content %}
+
+<div class="container">
+  <div id="regForm" class="row">
+  <div class="col-md-12">
+  <form name="form" method="POST">{% csrf_token %}
+    <h2>Profile</h2>
+    </div>
+    <div class="col-md-6">
+    <label>Date of Birth</label>
+      <input type="date" name="dob" class="form-control">
+    </div>
+    <div class="col-md-6">
+      {{form.gender|as_crispy_field}}
+    </div>
+    <div class="col-md-6">
+      {{form.phone|as_crispy_field}}
+    </div>
+    <div class="col-md-6">
+      {{form.address|as_crispy_field}}
+    </div>
+    <div class="col-md-6">
+      {{form.emergency_contact|as_crispy_field}}
+    </div>
+    <div class="col-md-6">
+      {{form.account_type|as_crispy_field}}
+    </div>
+    <div class="col-md-6">
+      {{form.status|as_crispy_field}}
+    </div>
+    <div class="col-md-6"><br /><br />
+        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn-success" value="Register Member">
+        <input type="text" name="rootid" value="{{ request.user.id }}">
+        <input type="text" name="user" value="{{ request.user.id }}">
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
