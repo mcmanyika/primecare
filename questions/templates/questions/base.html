@@ -28,9 +28,9 @@
       <div class="topnav">
         <a href="{% url 'covid' %}" class="active">Primecare Services</a>
         <div id="myLinks">
-          <!-- {% if request.user.is_staff %}
-        <a href="{% url 'client' %}">Staff Dashboard</a>
-        {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %} -->
+          {% if request.user.is_staff %}
+        <a href="{% url 'staff' %}">Staff Dashboard</a>
+        {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %}
 
           <a href="{% url 'success' %}" class="text">Contact Us</a>
           <a href="/accounts/logout/" class="text">Logout</a>
@@ -43,7 +43,7 @@
       {% block content %} {% endblock %}
       <div class="footer">
         {% if user.status == 'Active' and user.account_type == 'Staff' %}
-        <a href="{% if request.user.is_staff %}{% url 'client' %}{% else %}{% url 'covid' %}{% endif %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
+        <a href="{% if request.user.is_staff %}{% url 'staff' %}{% else %}{% url 'covid' %}{% endif %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
         {% else %}
         <a href="/accounts/logout/" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
         {% endif %}

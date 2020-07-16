@@ -141,25 +141,6 @@ def signup(request):
     return render(request, 'joins/signup.html', {'form': form})
 
 
-def user_img(request):
-    headings = t_dictionary.objects.all().order_by('id')
-    rw = t_dictionary.objects.all().order_by("name")
-    img_form = AvatarForm(request.POST or None, request.FILES or None)
-    if img_form.is_valid():
-        f = img_form.save(commit=False)
-        f.save()
-        messages.success(request, "Saved")
-        return redirect('signup-confirmation')
-
-    context = {
-        "headings": headings,
-        "rw": rw,
-        "img_form": img_form,
-    }
-    template = 'joins/user_img.html'
-    return render(request, template, context)
-
-
 def signup_confirmation(request):
 
     return render(request, 'signup_confirmation.html')
@@ -204,7 +185,7 @@ def staff(request):
 									 ea.emergency_contact,  ea.account_type, ea.status
 									FROM auth_user a
 									INNER JOIN joins_t_accounts ea ON ea.rootid = a.id
-                                    WHERE ea.status= 'Active'
+                                    WHERE ea.account_type = 'Attendant' And ea.status= 'Active'
                                 """)
 
     context = {
@@ -265,5 +246,86 @@ def staff_detail(request, id):
     }
 
     template = "joins/staff_detail.html"
+
+    return render(request, template, context)
+
+
+@login_required(login_url='/login/')
+def client(request):
+    dictionary = t_dict.objects.all()
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+
+    accts = t_accounts.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
+									 ea.address,
+									 ea.emergency_contact,  ea.account_type, ea.status
+									FROM auth_user a
+									INNER JOIN joins_t_accounts ea ON ea.rootid = a.id
+                                    WHERE ea.account_type = 'Client' And ea.status= 'Active'
+                                """)
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "accts": accts,
+
+    }
+
+    template = "joins/client.html"
+
+    return render(request, template, context)
+
+
+@login_required(login_url='/login/')
+def client_detail(request, id):
+    dictionary = t_dict.objects.all()
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+    instance = get_object_or_404(t_accounts, rootid=id)
+    client = User.objects.raw("""SELECT u.id, u.first_name, u.last_name, a.rootid,
+                                a.dob, a.gender, a.phone, 
+                                a.address,
+                                a.emergency_contact, a.account_type, a.status
+                                FROM auth_user u
+                                INNER JOIN joins_t_accounts a ON a.rootid = u.id
+                                WHERE  a.id = %s """, [instance.id])
+
+    EditAcctform = EditAcctForm(
+        request.POST or None, request.FILES or None, instance=instance)
+    if EditAcctform.is_valid():
+        f = EditAcctform.save(commit=False)
+        f.save()
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "EditAcctform": EditAcctform,
+
+        "id": instance.id,
+        "gender": instance.gender,
+        "phone": instance.phone,
+        "address": instance.address,
+        "emergency_contact": instance.emergency_contact,
+        "account_type": instance.account_type,
+        "status": instance.status,
+
+
+        "client": client,
+
+    }
+
+    template = "joins/client_detail.html"
 
     return render(request, template, context)

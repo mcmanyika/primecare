@@ -12,15 +12,12 @@ urlpatterns = [
     url(r'^password/$', change_password, name='change_password'),
     url(r'^signup/$', signup, name='signup'),
     url(r'^signup-confirmation/$', signup_confirmation, name='signup-confirmation'),
-    url(r'^user-img/$', user_img, name='user-img'),
 
 
+    url(r'^client/', client, name='client'),
+    url(r'^client-detail/(?P<id>.*)$', client_detail, name='client-detail'),
     url(r'^staff/', staff, name='staff'),
-
     url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
-
-
-
     url(r'^$', register_view, name='login'),
 
 ]

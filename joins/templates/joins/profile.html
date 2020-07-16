@@ -30,8 +30,8 @@
     </div>
     <div class="col-md-6"><br /><br />
         <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn-success" value="Register Member">
-        <input type="text" name="rootid" value="{{ request.user.id }}">
-        <input type="text" name="user" value="{{ request.user.id }}">
+        <input type="hidden" name="rootid" value="{{ request.user.id }}">
+        <input type="hidden" name="user" value="{{ request.user.id }}">
     </div>
     </form>
   </div>
