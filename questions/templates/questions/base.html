@@ -42,11 +42,12 @@
 
       {% block content %} {% endblock %}
       <div class="footer">
-        {% if user.status == 'Active' and user.account_type == 'Staff' %}
+        {% comment %} {% if user.status == 'Active' and user.account_type == 'Staff' %}
         <a href="{% if request.user.is_staff %}{% url 'staff' %}{% else %}{% url 'covid' %}{% endif %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
         {% else %}
         <a href="/accounts/logout/" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
-        {% endif %}
+        {% endif %} {% endcomment %}
+        <a href="{% url 'staff' %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
       </div>
     </div>
       {% include 'questions/scripts.html' %}

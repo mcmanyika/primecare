@@ -55,6 +55,8 @@ class t_acct(models.Model):
         choices=STATUS, max_length=20, null=True, blank=True)
     user = models.IntegerField(default=1, null=True, blank=True)
 
+    ser = models.IntegerField(default=1, null=True, blank=True)
+
     def get_absolute_url(self):
         return reverse('acct-delete', kwargs={'id': self.id})
 

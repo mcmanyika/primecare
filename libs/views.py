@@ -69,7 +69,7 @@ def resources(request):
 
 
 def acct_delete(request, id):
-    obj = get_object_or_404(t_accounts, id)
+    obj = get_object_or_404(t_acct, id)
     obj.delete()
 
     context = {
@@ -113,7 +113,7 @@ class AcctDelete(DeleteView):
 
     def get_object(self):
         id_ = self.kwargs.get("id")
-        return get_object_or_404(t_accounts, id=id_)
+        return get_object_or_404(t_acct, id=id_)
 
     def get_success_url(self):
         return reverse('client')
