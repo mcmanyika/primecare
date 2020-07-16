@@ -108,12 +108,28 @@ def covid(request):
     return render(request, template, context)
 
 
-class AcctDelete(DeleteView):
-    template = "acct_delete.html"
+def covid_submissions(request):
+    dictionary = t_dict.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(t_acct, id=id_)
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+    submissions = t_questionnaire.objects.raw("""SELECT q.id,  a.first_name, a.last_name, q.q1, q.q2, q.q3,
+                                                 q.q4, q.q4, q.q5, q.q6, q.q7, q.timestamp    
+                                                FROM auth_user a
+                                                INNER JOIN questions_t_questionnaire q ON q.rootid_id = a.id
+                                                ORDER BY q.id DESC
+                                                """)
 
-    def get_success_url(self):
-        return reverse('client')
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "submissions": submissions,
+    }
+    template = "libs/covid_submissions.html"
+
+    return render(request, template, context)

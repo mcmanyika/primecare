@@ -1,0 +1,59 @@
+{% extends "dashboard/dash_base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Q1</th>
+        <th>Q2</th>
+        <th>Q3</th>
+        <th>Q4</th>
+        <th>Q5</th>
+        <th>Q6</th>
+        <th>Q7</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for rw in submissions %}
+      <tr>
+        <td>{{rw.first_name}} {{rw.last_name}}</td>
+        <td>{{rw.q1}}</td>
+        <td>{{rw.q2}}</td>
+        <td>{{rw.q3}}</td>
+        <td>{{rw.q4}}</td>
+        <td>{{rw.q5}}</td>
+        <td>{{rw.q6}}</td>
+        <td>{{rw.q7}}</td>
+        <td>{{rw.timestamp}}</td>
+      </tr>
+   {% endfor %} 
+    </tbody>
+  </table>
+          
+</div>
+
+
+
+
+<!-- The Modal -->
+{% for rw in accts %}
+<div id="employee{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+       <iframe src="{% url 'staff-detail' rw.id %}" width="100%" frameborder="0" height="600"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -7,6 +7,7 @@ from libs.views import *
 urlpatterns = [
     url(r'^acct-delete/(?P<id>.*)$', acct_delete, name='acct-delete'),
     url(r'^resources/', resources, name='resources'),
+    url(r'^covid-submissions/', covid_submissions, name='covid-submissions'),
 ]
 
 if settings.DEBUG:
