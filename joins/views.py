@@ -213,7 +213,7 @@ def staff_detail(request, id):
                                     """)
     instance = get_object_or_404(t_acct, rootid=id)
     client = User.objects.raw("""SELECT u.id, u.first_name, u.last_name, a.rootid,
-                                a.dob, a.gender, a.phone, 
+                                a.gender, a.phone, 
                                 a.address,
                                 a.emergency_contact, a.account_type, a.status
                                 FROM auth_user u
