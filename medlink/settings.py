@@ -16,10 +16,10 @@ SECRET_KEY = '+g45%wa$s=4y+-p%v=lq=%&fs19e-28jt=n*&qy4x!4@w&zz47'
 
 DEBUG = False
 if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1', '161.35.195.36']
+    ALLOWED_HOSTS = ['127.0.0.1', 'primecare.cf']
 else:
 
-    ALLOWED_HOSTS = ['primecare.cf', 'www.primecare.cf', '161.35.195.36']
+    ALLOWED_HOSTS = ['primecare.cf', 'www.primecare.cf']
 
 
 # Application definition

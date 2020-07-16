@@ -92,6 +92,7 @@
           <h5>
             Are you experiencing NEW onset of the following symptoms?
         </h5>
+        <span class="warning">Click all that applies, if none click (<strong>None of the above</strong>)</span>
         </p>
       </div>
       <div class="col-12 pad">
@@ -101,6 +102,27 @@
     </div>
 
     <div class="tab">
+      <div class="col-12 pad">
+        <p>
+        <h5>Do you have any fever ( Check Yes or NO)</h5>
+        <select name="q7" onchange="showDiv('hidden_div', this)" class="form-control">
+           <option value="No">No</option>
+           <option value="Yes">Yes</option>
+        </select></p><br />
+        <div id="hidden_div">
+          <p>
+            DO NOT REPORT TO WORK (CHECK THE BOX BELOW)*<br />
+            Your responses indicate one (1) or more of the following:
+            - You are currently experiencing symptoms of COVID-19
+            - You have been in close contact with someone with COVID-19 or with COVID-19 symptoms
+             <br /><br />
+            1. Stay home and notify your supervisor that you failed the COVID-19 Self-Screening. In order to return to work you must be free of symptoms without medication for 72 hours. *Please note that you should continue to follow your departments call-in procedure to report your status.
+            2. If you are symptomatic for more than 3 sick days, call the Administrator  (214 -560-8247) or Office Manager (817-676-8416) for further instructions  on requirements prior to returning to the worksite.
+            3. Monitor your symptoms and seek immediate medical attention if they worsen.
+          </p>
+        </div>
+        <hr>
+      </div>
       <div class="col-12">
         <p>
           <h5>
@@ -132,32 +154,6 @@
         
         <hr>
       </div>
-      
-      <div class="col-12 pad">
-        <p>
-        <h5>Do you have any fever ( Check Yes or NO)</h5>
-        <select name="q7" onchange="showDiv('hidden_div', this)" class="form-control">
-           <option value="No">No</option>
-           <option value="Yes">Yes</option>
-        </select></p><br />
-        <div id="hidden_div">
-          <p>
-            DO NOT REPORT TO WORK (CHECK THE BOX BELOW)*<br />
-            Your responses indicate one (1) or more of the following:
-            - You are currently experiencing symptoms of COVID-19
-            - You have been in close contact with someone with COVID-19 or with COVID-19 symptoms
-             <br /><br />
-            1. Stay home and notify your supervisor that you failed the COVID-19 Self-Screening. In order to return to work you must be free of symptoms without medication for 72 hours. *Please note that you should continue to follow your departments call-in procedure to report your status.
-            2. If you are symptomatic for more than 3 sick days, call the Administrator  (214 -560-8247) or Office Manager (817-676-8416) for further instructions  on requirements prior to returning to the worksite.
-            3. Monitor your symptoms and seek immediate medical attention if they worsen.
-          </p>
-        </div>
-
-
-      </div>
-
-
-
       <div class="col-12 pad" style="text-align: center;">
         <button id="submit" type="submit" class="btn btn-info btn-lg">
           Submit
