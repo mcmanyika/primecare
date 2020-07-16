@@ -19,7 +19,7 @@ if DEBUG:
     ALLOWED_HOSTS = ['127.0.0.1', '161.35.195.36']
 else:
 
-    ALLOWED_HOSTS = ['161.35.195.36']
+    ALLOWED_HOSTS = ['primecare.cf', 'www.primecare.cf', '161.35.195.36']
 
 
 # Application definition
