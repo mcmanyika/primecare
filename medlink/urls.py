@@ -12,8 +12,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     url(r'joins/', include('joins.urls')),
     url(r'libs/', include('libs.urls')),
-    # url(r'dashboard/', include('dashboard.urls')),
-    # url(r'client/', include('client.urls')),
 
     url(r'^', include('questions.urls')),
 

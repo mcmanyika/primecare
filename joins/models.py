@@ -28,7 +28,7 @@ class UserProfile(models.Model):
         return 'UserProfile {}'.format(self.id)
 
 
-class t_accounts(models.Model):
+class t_acct(models.Model):
     ACCOUNT_TYPE = (
         ('Attendant', 'Attendant'),
         ('Client', 'Client'),
@@ -43,65 +43,20 @@ class t_accounts(models.Model):
         ('Male', 'Male'),
     )
     rootid = models.IntegerField(default=1000, null=True, blank=True)
-    fname = models.CharField(max_length=20, null=True, blank=True)
-    middle_name = models.CharField(max_length=20, null=True, blank=True)
-    lname = models.CharField(max_length=20, null=True, blank=True)
     gender = models.CharField(
         choices=GENDER, max_length=10, null=True, blank=True)
-    dob = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=25, default='', null=True, blank=True)
     address = models.CharField(
         max_length=100, default='', null=True, blank=True)
-    email = models.CharField(max_length=50, default='', null=True, blank=True)
     emergency_contact = models.CharField(max_length=100, null=True, blank=True)
     account_type = models.CharField(
         choices=ACCOUNT_TYPE, max_length=40, null=True, blank=True)
     status = models.CharField(
         choices=STATUS, max_length=20, null=True, blank=True)
     user = models.IntegerField(default=1, null=True, blank=True)
-    ser = models.IntegerField(default=1, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('acct-delete', kwargs={'id': self.id})
 
     def __unicode__(self):
-        return 't_accounts {}'.format(self.id)
-
-
-class t_employee_attribute(models.Model):
-
-    rootid = models.IntegerField(default=1, null=True, blank=True)
-    employee_id = models.CharField(max_length=15, null=True, blank=True)
-    doh = models.CharField(max_length=15, null=True, blank=True)
-    status = models.CharField(max_length=10, null=True, blank=True)
-    user = models.IntegerField(default=1, null=True, blank=True)
-
-    def __unicode__(self):
-        return 't_employee_attribute {}'.format(self.id)
-
-
-class t_client_attribute(models.Model):
-
-    rootid = models.IntegerField(default=1, null=True, blank=True)
-    client_number = models.CharField(max_length=15, null=True, blank=True)
-    company = models.CharField(max_length=50, null=True, blank=True)
-    soc = models.DateField()
-    status = models.CharField(max_length=10, null=True, blank=True)
-    user = models.IntegerField(default=1, null=True, blank=True)
-
-    def __unicode__(self):
-        return 't_client_attribute {}'.format(self.id)
-
-
-class t_evaluation(models.Model):
-    rootid = models.IntegerField(default=1, null=True, blank=True)
-    employee_id = models.IntegerField(null=True, blank=True)
-    scheduled_date = models.DateField()
-    evaluated_date = models.DateField()
-    status = models.CharField(max_length=10, null=True, blank=True)
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_visit_tracker {}'.format(self.id)
+        return 't_acct {}'.format(self.id)

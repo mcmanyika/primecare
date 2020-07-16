@@ -27,7 +27,7 @@ class t_questionnaire(models.Model):
         ('None of the above', 'None of the above')
     )
     rootid = models.ForeignKey(
-        t_accounts, on_delete=models.CASCADE, default='1000')
+        t_acct, on_delete=models.CASCADE, default='1000')
     q1 = models.BooleanField()
     q2 = models.BooleanField()
     q3 = models.BooleanField()

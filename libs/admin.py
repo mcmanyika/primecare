@@ -4,36 +4,6 @@ from libs.models import *
 # Register your models here.
 
 
-class AcctsAdmin(admin.ModelAdmin):
-    list_display = ['rootid', 'gender', 'dob']
-
-    class Meta:
-        model = t_accts
-
-
-admin.site.register(t_accts, AcctsAdmin)
-
-
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ['PatientID']
-
-    class Meta:
-        model = Client
-
-
-admin.site.register(Client, ClientAdmin)
-
-
-class PatientAdmin(admin.ModelAdmin):
-    list_display = ['fname', 'lname']
-
-    class Meta:
-        model = t_patient_acct
-
-
-admin.site.register(t_patient_acct, PatientAdmin)
-
-
 class DictAdmin(admin.ModelAdmin):
     list_display = ['header', 'category', 'status']
 
@@ -42,26 +12,6 @@ class DictAdmin(admin.ModelAdmin):
 
 
 admin.site.register(t_dict, DictAdmin)
-
-
-class VisitTrackerAdmin(admin.ModelAdmin):
-    list_display = ['rootid', 'date', 'employee_id', 'status', 'timestamp']
-
-    class Meta:
-        model = t_visit_tracker
-
-
-admin.site.register(t_visit_tracker, VisitTrackerAdmin)
-
-
-class ExclusionAdmin(admin.ModelAdmin):
-    list_display = ['rootid',  'timestamp']
-
-    class Meta:
-        model = t_oig
-
-
-admin.site.register(t_oig, ExclusionAdmin)
 
 
 class UrlAdmin(admin.ModelAdmin):
@@ -92,3 +42,13 @@ class ResourcesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(t_resources, ResourcesAdmin)
+
+
+class AcctAdmin(admin.ModelAdmin):
+    list_display = ['id',  'gender', 'account_type', 'status']
+
+    class Meta:
+        model = accts
+
+
+admin.site.register(accts, AcctAdmin)

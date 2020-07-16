@@ -51,7 +51,7 @@ def register_view(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                user_p = get_object_or_404(t_accts, rootid=request.user.id)
+                user_p = get_object_or_404(t_acct, rootid=request.user.id)
                 if user_p.status == 'Active':
                     return HttpResponseRedirect('/questions/covid/')
                 else:
@@ -116,7 +116,7 @@ def Userprofile(request):
 
 
 def pending(request):
-    user = get_object_or_404(t_accounts, rootid=request.user.id)
+    user = get_object_or_404(t_acct, rootid=request.user.id)
 
     context = {
         "user": user,
@@ -180,11 +180,11 @@ def staff(request):
                                        FROM libs_t_sub_url su
                                     """)
 
-    accts = t_accounts.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
+    accts = t_acct.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
 									 ea.address,
 									 ea.emergency_contact,  ea.account_type, ea.status
 									FROM auth_user a
-									INNER JOIN joins_t_accounts ea ON ea.rootid = a.id
+									INNER JOIN joins_t_acct ea ON ea.rootid = a.id
                                     WHERE ea.account_type = 'Attendant' And ea.status= 'Active'
                                 """)
 
@@ -211,13 +211,13 @@ def staff_detail(request, id):
     sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
                                        FROM libs_t_sub_url su
                                     """)
-    instance = get_object_or_404(t_accounts, rootid=id)
+    instance = get_object_or_404(t_acct, rootid=id)
     client = User.objects.raw("""SELECT u.id, u.first_name, u.last_name, a.rootid,
                                 a.dob, a.gender, a.phone, 
                                 a.address,
                                 a.emergency_contact, a.account_type, a.status
                                 FROM auth_user u
-                                INNER JOIN joins_t_accounts a ON a.rootid = u.id
+                                INNER JOIN joins_t_acct a ON a.rootid = u.id
                                 WHERE  a.id = %s """, [instance.id])
 
     EditAcctform = EditAcctForm(
@@ -261,11 +261,11 @@ def client(request):
                                        FROM libs_t_sub_url su
                                     """)
 
-    accts = t_accounts.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
+    accts = t_acct.objects.raw("""SELECT a.id, a.first_name, a.last_name, ea.rootid,  ea.gender, ea.phone, 
 									 ea.address,
 									 ea.emergency_contact,  ea.account_type, ea.status
 									FROM auth_user a
-									INNER JOIN joins_t_accounts ea ON ea.rootid = a.id
+									INNER JOIN joins_t_acct ea ON ea.rootid = a.id
                                     WHERE ea.account_type = 'Client' And ea.status= 'Active'
                                 """)
 
@@ -292,13 +292,13 @@ def client_detail(request, id):
     sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
                                        FROM libs_t_sub_url su
                                     """)
-    instance = get_object_or_404(t_accounts, rootid=id)
+    instance = get_object_or_404(t_acct, rootid=id)
     client = User.objects.raw("""SELECT u.id, u.first_name, u.last_name, a.rootid,
                                 a.dob, a.gender, a.phone, 
                                 a.address,
                                 a.emergency_contact, a.account_type, a.status
                                 FROM auth_user u
-                                INNER JOIN joins_t_accounts a ON a.rootid = u.id
+                                INNER JOIN joins_t_acct a ON a.rootid = u.id
                                 WHERE  a.id = %s """, [instance.id])
 
     EditAcctform = EditAcctForm(

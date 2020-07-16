@@ -23,7 +23,7 @@ class AvatarForm(forms.ModelForm):
 
 class AcctForm(forms.ModelForm):
     class Meta:
-        model = t_accounts
+        model = t_acct
         fields = [
             'rootid',
             'gender',
@@ -36,34 +36,22 @@ class AcctForm(forms.ModelForm):
 
 class EditAcctForm(forms.ModelForm):
     class Meta:
-        model = t_accounts
+        model = t_acct
         fields = [
             'rootid',
             'gender',
             'phone',
-            'dob',
             'address',
             'emergency_contact',
-            'email',
             'account_type',
             'status',
         ]
 
 
-class EditClientAttributeForm(forms.ModelForm):
-    class Meta:
-        model = t_client_attribute
-        fields = [
-            'client_number',
-            'company',
-            'soc',
-        ]
-
-
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = t_accounts
-        fields = ["rootid",  "gender", "dob", "phone", "address",
+        model = t_acct
+        fields = ["rootid",  "gender", "phone", "address",
                   "emergency_contact", "account_type", "status", "user"]
 
 

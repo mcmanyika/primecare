@@ -27,7 +27,7 @@ from joins.models import *
 @login_required(login_url='/accounts/login/')
 def covid(request):
 
-    user = get_object_or_404(t_accts, rootid=request.user.id)
+    user = get_object_or_404(t_acct, rootid=request.user.id)
     if not user.status == 'Active':
         return HttpResponseRedirect('/pending/')
 
@@ -48,7 +48,7 @@ def covid(request):
 
 
 def success(request):
-    user = get_object_or_404(t_accts, rootid=request.user.id)
+    user = get_object_or_404(t_acct, rootid=request.user.id)
     context = {
         "user": user,
     }
@@ -58,7 +58,7 @@ def success(request):
 
 
 def pending(request):
-    user = get_object_or_404(t_accts, rootid=request.user.id)
+    user = get_object_or_404(t_acct, rootid=request.user.id)
 
     context = {
         "user": user,

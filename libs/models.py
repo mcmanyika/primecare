@@ -14,66 +14,6 @@ def upload_location(instance, filename):
     return "%s/%s" % (instance.id, filename)
 
 
-class t_accts(models.Model):
-    ACCOUNT_TYPE = (
-        ('Attendant', 'Attendant'),
-        ('Client', 'Client'),
-        ('Staff', 'Staff'),
-    )
-    STATUS = (
-        ('Active', 'Active'),
-        ('NoneActive', 'NoneActive'),
-    )
-    rootid = models.ForeignKey(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=10, null=True, blank=True)
-    dob = models.DateField(null=True, blank=True)
-    phone = models.CharField(max_length=25, default='', null=True, blank=True)
-    address = models.CharField(
-        max_length=100, default='', null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    emergency_contact = models.CharField(max_length=20, null=True, blank=True)
-    account_type = models.CharField(
-        choices=ACCOUNT_TYPE, max_length=40, null=True, blank=True)
-    status = models.CharField(
-        choices=STATUS, max_length=20, null=True, blank=True)
-    user = models.IntegerField(default=1, null=True, blank=True)
-
-    def __unicode__(self):
-        return 't_accts {}'.format(self.id)
-
-
-class t_patient_acct(models.Model):
-
-    fname = models.CharField(max_length=10, null=True, blank=True)
-    lname = models.CharField(max_length=10, null=True, blank=True)
-    gender = models.CharField(max_length=10, null=True, blank=True)
-    phone = models.CharField(max_length=25, default='', null=True, blank=True)
-    address = models.CharField(
-        max_length=100, default='', null=True, blank=True)
-
-    user = models.IntegerField(default=1, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_patient_acct {}'.format(self.id)
-
-
-class Client(models.Model):
-    Daily_Login_ID = models.CharField(
-        max_length=20, default='', null=True, blank=True)
-    Daily_Logout_ID = models.CharField(
-        max_length=20, default='', null=True, blank=True)
-    PatientID = models.IntegerField(null=True, blank=True)
-    employee_id = models.IntegerField(null=True, blank=True)
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 'Client {}'.format(self.id)
-
-
 class t_dict(models.Model):
     header = models.CharField(max_length=50, default='')
     category = models.CharField(max_length=20, default='')
@@ -84,33 +24,6 @@ class t_dict(models.Model):
 
     def __unicode__(self):
         return 't_dict {}'.format(self.id)
-
-
-class t_visit_tracker(models.Model):
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE, default='1')
-    date = models.DateField()
-    status = models.CharField(max_length=20, default='', null=True, blank=True)
-    employee_id = models.IntegerField(null=True, blank=True)
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_visit_tracker {}'.format(self.id)
-
-
-class t_oig(models.Model):
-    rootid = models.ForeignKey(t_accts, on_delete=models.CASCADE)
-    root = models.IntegerField(null=True, blank=True)
-    site = models.CharField(max_length=100, default='')
-    date = models.DateField()
-    document = models.FileField(upload_to='documents/oig/')
-    user = models.IntegerField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-
-    def __unicode__(self):
-        return 't_oig {}'.format(self.id)
 
 
 class t_url(models.Model):
@@ -175,3 +88,34 @@ class t_sub_resources(models.Model):
 
     def __unicode__(self):
         return 't_sub_resources {}'.format(self.id)
+
+
+class accts(models.Model):
+    ACCOUNT_TYPE = (
+        ('Attendant', 'Attendant'),
+        ('Client', 'Client'),
+        ('Staff', 'Staff'),
+    )
+    STATUS = (
+        ('Active', 'Active'),
+        ('NoneActive', 'NoneActive'),
+    )
+    GENDER = (
+        ('Female', 'Female'),
+        ('Male', 'Male'),
+    )
+    rootid = models.IntegerField(default=1000, null=True, blank=True)
+    gender = models.CharField(
+        choices=GENDER, max_length=10, null=True, blank=True)
+    phone = models.CharField(max_length=25, default='', null=True, blank=True)
+    address = models.CharField(
+        max_length=100, default='', null=True, blank=True)
+    emergency_contact = models.CharField(max_length=100, null=True, blank=True)
+    account_type = models.CharField(
+        choices=ACCOUNT_TYPE, max_length=40, null=True, blank=True)
+    status = models.CharField(
+        choices=STATUS, max_length=20, null=True, blank=True)
+    user = models.IntegerField(default=1, null=True, blank=True)
+
+    def __unicode__(self):
+        return 'accts {}'.format(self.id)
