@@ -1,0 +1,50 @@
+{% extends "dashboard/dash_base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>First name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+  {% for rw in all_users %}
+      <tr>
+        <td>{{rw.username}}</td>
+        <td>{{rw.first_name}}</td> 
+        <td>{{rw.last_name}}</td>
+        <td>{{rw.email}}</td>
+      </tr>
+   {% endfor %} 
+    </tbody>
+  </table>
+          
+</div>
+
+
+
+
+<!-- The Modal -->
+{% for rw in accts %}
+<div id="employee{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+       <iframe src="{% url 'staff-detail' rw.id %}" width="100%" frameborder="0" height="600"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

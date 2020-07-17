@@ -329,3 +329,28 @@ def client_detail(request, id):
     template = "joins/client_detail.html"
 
     return render(request, template, context)
+
+
+@login_required(login_url='/login/')
+def all_users(request):
+    dictionary = t_dict.objects.all()
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+    all_users = User.objects.all()
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "all_users": all_users,
+
+    }
+
+    template = "joins/all_users.html"
+
+    return render(request, template, context)

@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^client-detail/(?P<id>.*)$', client_detail, name='client-detail'),
     url(r'^staff/', staff, name='staff'),
     url(r'^staff-detail/(?P<id>.*)$', staff_detail, name='staff-detail'),
+
+    url(r'^all-users/', all_users, name='all-users'),
     url(r'^$', register_view, name='login'),
 
 ]
