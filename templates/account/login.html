@@ -14,11 +14,11 @@
             <div class="col-md-12 brand-logo text-center">
                 <img src="{% static 'img/logo.png' %}" alt="logo" />
             </div>
-            <div class="col-md-12 card-header">
+            <div class="card-header">
                 <div class="card-title">
                     <h4 class="text-center mb-2">{% trans "Welcome Back" %}</h4>
                 </div>
-            </div>
+            
 
 {% get_providers as socialaccount_providers %}
 
@@ -43,9 +43,9 @@
     <form class="login" method="POST" action="{% url 'account_login' %}">
     {% csrf_token %}
     
-    {{form.login }}
+    {{form.login }}<br />
     {{form.password}}
-    <label id="id_remember"> Remember
+    <label id="id_remember" class="small"> Remember
     {{form.remember}}
     </label>
         <input style="background: #4caf50 !important" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-success" value="Log In">
@@ -56,8 +56,9 @@
     {% endif %}
     </form>
 <hr>
-{% comment %} <div class="text-center"><small class="mr-25">Don't have an account?</small>
- <a href="{% url 'register-member' %}"><small>Sign up</small></a></div>  {% endcomment %}
-    </div> 
+    {% comment %} <div class="text-center"><small class="mr-25">Don't have an account?</small>
+    <a href="{% url 'register-member' %}"><small>Sign up</small></a></div>  {% endcomment %}
+        </div> 
+    </div>
 </div>
 {% endblock %}
