@@ -4,10 +4,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrimeCare Link Services Admin</title>
     <!-- plugins:css -->
     <style>
@@ -15,11 +12,21 @@
             width: 30% !important;
             margin: auto;
         }
+        . {
+          padding:10px
+        }
         input[type=text], input[type=password], input[type=email] {
         width: 100%;
         padding: 10px 18px;
         margin: 8px;
         box-sizing: border-box;
+      }
+
+      /* Use a media query to add a break point at 800px: */
+      @media screen and (max-width:500px) {
+        .pad {
+          width:90%; /* The width is 100%, when the viewport is 800px or smaller */
+        }
       }
     </style>
     <link rel="stylesheet" href="{% static 'dash/css/icons.css' %}" />
