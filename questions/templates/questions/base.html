@@ -31,7 +31,7 @@
           {% if request.user.is_staff %}
         <a href="{% url 'staff' %}">Staff Dashboard</a>
         {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %}
-
+          <a href="{% url 'change-password' %}" class="text">Change Password</a>
           <a href="{% url 'success' %}" class="text">Contact Us</a>
           <a href="/accounts/logout/" class="text">Logout</a>
         </div>

@@ -154,12 +154,12 @@ def change_password(request):
             update_session_auth_hash(request, user)
             messages.success(request, _(
                 'Your password was successfully updated!'))
-            return redirect('change_password')
+            return redirect('logout')
         else:
             messages.error(request, _('Please correct the error below.'))
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'change_password.html', {
+    return render(request, 'joins/change_password.html', {
         'form': form
     })
 

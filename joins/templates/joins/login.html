@@ -4,51 +4,51 @@
 
  {% block content %}
     <div class="row centered">
-                                <form  id="login-form" class="form" method="POST" action="">{% csrf_token %}
-                                    <div class="form-group">
-                                        <input type="text" name="username" id="username" tabindex="1" class="form-control input-lg" placeholder="Username" value="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="w3-row">
-                                            <div class="w3-col m12">
-                                                <div class="text-center">
-                                                    <!-- <a href="#" id="password-reset-link" tabindex="5" class="forgot-password">Reset Password</a> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-info" value="Log In">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                </form>
-                                <form id="register-form" action="" method="post" role="form" style="display: none;">
-                                    <iframe src="{% url 'signup'  %}" frameborder="0" height="450" width="100%"></iframe>
-                                </form>
-
-                                <form id="password-reset" action="" method="post" role="form" style="display: none;">{% csrf_token %}
-                                    <div class="form-group">
-                                        {{passchange.as_p}}
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="w3-row">
-                                            <div class="w3-col m6">
-                                                <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Change Now">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                <form  id="login-form" class="form" method="POST" action="">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" id="username" tabindex="1" class="form-control input-lg" placeholder="Username" value="">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" tabindex="2" class="form-control input-lg" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <div class="w3-row">
+                            <div class="w3-col m12">
+                                <div class="text-center">
+                                    <!-- <a href="#" id="password-reset-link" tabindex="5" class="forgot-password">Reset Password</a> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-           
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-info" value="Log In">
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+                <form id="register-form" action="" method="post" role="form" style="display: none;">
+                    <iframe src="{% url 'signup'  %}" frameborder="0" height="450" width="100%"></iframe>
+                </form>
+
+                <form id="password-reset" action="" method="post" role="form" style="display: none;">{% csrf_token %}
+                    <div class="form-group">
+                        {{passchange.as_p}}
+                    </div>
+                    <div class="form-group">
+                        <div class="w3-row">
+                            <div class="w3-col m6">
+                                <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Change Now">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
