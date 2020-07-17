@@ -33,7 +33,7 @@
         {%else %}<a href="{% url 'covid' %}">Home</a>{% endif %}
           <a href="{% url 'change-password' %}" class="text">Change Password</a>
           <a href="{% url 'success' %}" class="text">Contact Us</a>
-          <a href="/accounts/logout/" class="text">Logout</a>
+          <a href="{% url 'logout' %}" class="text">Logout</a>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
           <i class="fa fa-bars"></i>
@@ -45,7 +45,7 @@
          {% if user.status == 'Active' and user.account_type == 'Staff' %}
         <a href="{% if request.user.is_staff %}{% url 'staff' %}{% else %}{% url 'covid' %}{% endif %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
         {% else %}
-        <a href="/accounts/logout/" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
+        <a href="{% url 'logout' %}" class="list-group-item"><i class="fa fa-home fa-fw fa-2x"></i></a>
         {% endif %}
       </div>
     </div>

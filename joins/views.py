@@ -50,6 +50,7 @@ def register_view(request):
 
         if user is not None:
             if user.is_active:
+                request.session.set_expiry(300)
                 login(request, user)
                 user_p = get_object_or_404(t_acct, rootid=request.user.id)
                 if user_p.status == 'Active':

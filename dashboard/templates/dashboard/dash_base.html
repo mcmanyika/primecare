@@ -79,7 +79,7 @@
                   <i class="ti-settings text-primary"></i>
                   Password
                 </a>
-                <a class="dropdown-item" href="/accounts/logout/">
+                <a class="dropdown-item" href="{% url 'logout' %}">
                   <i class="ti-power-off text-primary"></i>
                   Logout
                 </a>
@@ -196,7 +196,7 @@
             >
               <span
                 class="text-muted text-center text-sm-left d-block d-sm-inline-block"
-                >Copyright © 2019. All rights reserved.</span
+                >© <script>document.write(new Date().getFullYear());</script>. All rights reserved.</span
               >
             </div>
           </footer>

@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'medlink.urls'
@@ -158,3 +159,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static_root')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'img')
 
 MEDIA_URL = '/img/'
+
+SESSION_EXPIRE_SECONDS = 300  # 300 seconds = 5 minutes
