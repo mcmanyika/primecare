@@ -3,12 +3,13 @@
 {% block content %}
 <div class="row">
   <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>First name</th>
-        <th>Last Name</th>
-        <th>Email</th>
+<table id="allUsers" class="table table-hover">
+  <tr>
+   <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->  
+    <th onclick="sortTable(0)">Username</th>
+    <th onclick="sortTable(1)">First name</th>
+    <th onclick="sortTable(2)">Last Name</th>
+    <th onclick="sortTable(3)">Email</th>
         
       </tr>
     </thead>

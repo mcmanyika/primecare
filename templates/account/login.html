@@ -48,7 +48,7 @@
     <label id="id_remember" class="small"> Remember
     {{form.remember}}
     </label>
-        <input style="background: #4caf50 !important" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-success" value="Log In">
+    <input style="background: #4caf50 !important" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn-lg btn btn-success" value="Log In">
  
 
     {% if redirect_field_value %}
@@ -56,8 +56,8 @@
     {% endif %}
     </form>
 <hr>
-    {% comment %} <div class="text-center"><small class="mr-25">Don't have an account?</small>
-    <a href="{% url 'register-member' %}"><small>Sign up</small></a></div>  {% endcomment %}
+     <div class="text-center"><small class="mr-25">Don't have an account?</small>
+    <a href="{% url 'register-member' %}"><small>Sign up</small></a></div>  
         </div> 
     </div>
 </div>
