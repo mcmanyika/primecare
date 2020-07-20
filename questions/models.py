@@ -35,6 +35,7 @@ class t_questionnaire(models.Model):
     q5 = MultiSelectField(choices=QUESTION_CHOCE, null=True, blank=True)
     q6 = models.CharField(max_length=40)
     q7 = models.CharField(max_length=10)
+    q8 = models.BooleanField()
     user = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
