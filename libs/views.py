@@ -117,7 +117,7 @@ def covid_submissions(request):
     sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
                                        FROM libs_t_sub_url su
                                     """)
-    submissions = t_questionnaire.objects.raw("""SELECT q.id,  a.first_name, a.last_name, q.q1, q.q2, q.q3,
+    submissions = t_questionnaire.objects.raw("""SELECT q.id,  a.username, q.q1, q.q2, q.q3,
                                                  q.q4, q.q4, q.q5, q.q6, q.q7, q.timestamp    
                                                 FROM auth_user a
                                                 INNER JOIN questions_t_questionnaire q ON q.rootid_id = a.id

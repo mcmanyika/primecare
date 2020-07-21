@@ -5,7 +5,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th></th>
+        <th>Username</th>
         <th>Q1</th>
         <th>Q2</th>
         <th>Q3</th>
@@ -13,13 +13,14 @@
         <th>Q5</th>
         <th>Q6</th>
         <th>Q7</th>
+        <th>Q8</th>
         <th>Timestamp</th>
       </tr>
     </thead>
     <tbody>
   {% for rw in submissions %}
       <tr>
-        <td>{{rw.first_name}} {{rw.last_name}}</td>
+        <td>{{rw.username}}</td>
         <td>{{rw.q1}}</td>
         <td>{{rw.q2}}</td>
         <td>{{rw.q3}}</td>
@@ -27,6 +28,7 @@
         <td>{{rw.q5}}</td>
         <td>{{rw.q6}}</td>
         <td>{{rw.q7}}</td>
+        <td>{{rw.q8}}</td>
         <td>{{rw.timestamp}}</td>
       </tr>
    {% endfor %} 
