@@ -1,8 +1,11 @@
 {% extends "dashboard/dash_base.html" %}
 {% load static %}
 {% block content %}
-<div class="row">
-  <table class="table table-hover">
+  <div class="col-md-12" style="text-align: right; padding-bottom:10px">
+    <a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="printPageArea('printableArea')">Print</a>
+  </div>
+<div id="printableArea" class="col-md-12">
+  <table class="table table-hover" width="100%">
     <thead>
       <tr>
         <th>Username</th>
