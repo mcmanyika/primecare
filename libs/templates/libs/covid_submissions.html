@@ -21,20 +21,47 @@
   {% for rw in submissions %}
       <tr>
         <td><a href="#submission{{rw.id}}" data-toggle="modal">{{rw.username}}</a></td>
-        <td>{{rw.q1}}</td>
-        <td>{{rw.q2}}</td>
-        <td>{{rw.q3}}</td>
-        <td>{{rw.q4}}</td>
-        <td>{{rw.q5}}</td>
+        <td>{% if rw.q1 %}
+                {{rw.q1}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td>{% if rw.q2 %}
+                {{rw.q2}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td>{% if rw.q3 %}
+                {{rw.q3}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td>{% if rw.q4 %}
+                {{rw.q4}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td>{% if rw.q5 %}
+                {{rw.q5}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
         <td>{{rw.q6}}</td>
-        <td>{{rw.q7}}</td>
-        <td>{{rw.q8}}</td>
-        <td>{{rw.timestamp}}</td>
+        <td>{% if rw.q7 %}
+                {{rw.q7}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td>{% if rw.q8 %}
+                {{rw.q8}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
+        <td><a href="#submission{{rw.id}}" data-toggle="modal">{{rw.timestamp}}</a></td>
       </tr>
    {% endfor %} 
     </tbody>
   </table>
-          
 </div>
 
 
