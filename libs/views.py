@@ -133,3 +133,32 @@ def covid_submissions(request):
     template = "libs/covid_submissions.html"
 
     return render(request, template, context)
+
+
+def covid_submissions_detail(request, id):
+    inst = get_object_or_404(t_questionnaire, id=id)
+    dictionary = t_dict.objects.all()
+
+    url = t_url.objects.raw("""SELECT u.id, u.icon, u.url, u.header, u.category
+                                FROM libs_t_url u
+                            """)
+    sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
+                                       FROM libs_t_sub_url su
+                                    """)
+    submission = t_questionnaire.objects.raw("""SELECT q.id,  a.username, q.q1, q.q2, q.q3,
+                                                 q.q4, q.q4, q.q5, q.q6, q.q7, q8, q.timestamp    
+                                                FROM auth_user a
+                                                INNER JOIN questions_t_questionnaire q ON q.rootid_id = a.id
+                                                WHERE q.id = %s
+                                                ORDER BY q.id DESC
+                                                """, [inst.id])
+
+    context = {
+        "dictionary": dictionary,
+        "url": url,
+        "sub_url": sub_url,
+        "submission": submission,
+    }
+    template = "libs/covid_submission_detail.html"
+
+    return render(request, template, context)

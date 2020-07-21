@@ -8,6 +8,9 @@ urlpatterns = [
     url(r'^acct-delete/(?P<id>.*)$', acct_delete, name='acct-delete'),
     url(r'^resources/', resources, name='resources'),
     url(r'^covid-submissions/', covid_submissions, name='covid-submissions'),
+    url(r'^covid-submission-detail/(?P<id>.*)$',
+        covid_submissions_detail, name='covid-submission-detail'),
+
 ]
 
 if settings.DEBUG:

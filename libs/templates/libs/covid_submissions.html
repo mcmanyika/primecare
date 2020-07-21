@@ -20,7 +20,7 @@
     <tbody>
   {% for rw in submissions %}
       <tr>
-        <td>{{rw.username}}</td>
+        <td><a href="#submission{{rw.id}}" data-toggle="modal">{{rw.username}}</a></td>
         <td>{{rw.q1}}</td>
         <td>{{rw.q2}}</td>
         <td>{{rw.q3}}</td>
@@ -49,6 +49,25 @@
       
       <div class="modal-body">
        <iframe src="{% url 'staff-detail' rw.id %}" width="100%" frameborder="0" height="600"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+<!-- The Modal -->
+{% for rw in submissions %}
+<div id="submission{{rw.id}}" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+       <iframe src="{% url 'covid-submission-detail' rw.id %}" width="100%" frameborder="0" height="700"></iframe>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

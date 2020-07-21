@@ -1,0 +1,101 @@
+{% extends "w3baseBlank.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+.pad {
+    padding:5px;
+}
+.pad2 {
+    padding:5px;
+    font-weight: bold;
+}
+</style>
+<div class="row pull-right pad2"><a class="btn btn-lg btn-success" href="javascript:void(0);" onclick="printPageArea('printableArea')">Print</a>
+</div>
+<div id="printableArea" class="col-md-12">
+{% for rw in submission %}
+    <div class="col-md-12 pad">
+    <h3>Client Vesta ID: {{rw.username}}</h3>
+    <span>{{rw.timestamp}}</span><br /><br />
+    </div>
+        <div class="col-md-6 pad">In the last 14 days have you recently travelled to a COVID-19-affected geographic area inside or outside USA?</div>
+            <div class="col-md-6 pad2">{% if rw.q1 %}
+                {{rw.q1}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">In the last 14 days have you been in contact with any person who has travelled outside the USA?</div>
+            <div class="col-md-6 pad2">{% if rw.q2 %}
+                {{rw.q2}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">In the last 14 days have been in CLOSE CONTACT with someone diagnosed with COVID-19 or ill with a respiratory illness?</div>
+            <div class="col-md-6 pad2">{% if rw.q3 %}
+                {{rw.q3}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">Have you been told by a health care provider you might have COVID-19?</div>
+            <div class="col-md-6 pad2">{% if rw.q4 %}
+                {{rw.q4}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">Are you experiencing NEW onset of the following symptoms?</div>
+            <div class="col-md-6 pad2">{% if rw.q5 %}
+                {{rw.q5}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">What is your current temperature?</div>
+            <div class="col-md-6 pad2">{% if rw.q6 %}
+                {{rw.q6}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">Do you have any fever</div>
+            <div class="col-md-6 pad2">{% if rw.q7 %}
+                {{rw.q7}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+        <div class="col-md-12"><hr></div>
+        <div class="col-md-6 pad">By checking the box below, I hereby confirm that my responses are true and accurate.</div>
+            <div class="col-md-6 pad2">{% if rw.q8 %}
+                {{rw.q8}}
+                {% else %}
+                No<br />
+                {% endif %}
+        </div>
+{% endfor %}    
+ </div>
+ 
+	
+<script>
+  function printPageArea(areaID){
+    var printContent = document.getElementById(areaID);
+    var WinPrint = window.open('', '', 'width=900,height=650');
+    WinPrint.document.write(printContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}
+</script>
+
+{% endblock %}
