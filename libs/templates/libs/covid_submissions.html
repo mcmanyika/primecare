@@ -1,10 +1,28 @@
 {% extends "dashboard/dash_base.html" %}
 {% load static %}
 {% block content %}
-  <div class="col-md-12" style="text-align: right; padding-bottom:10px">
+<div class="row">
+  <div class="col-md-10">
+    <div class="pagination">
+      <span class="step-links">
+          {% if submissions.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ submissions.previous_page_number }}">previous</a>
+          {% endif %}
+
+          {% if submissions.has_next %}
+              <a href="?page={{ submissions.next_page_number }}">next</a>
+              <a href="?page={{ submissions.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+</div>
+
+  <div class="col-md-2" style="text-align:right">
     <a class="btn btn-sm btn-success" href="javascript:void(0);" onclick="printPageArea('printableArea')">Print</a>
   </div>
-<div id="printableArea" class="col-md-12">
+
+<div id="printableArea" class="col-md-12" style="padding-top:10px">
   <table id="filterTable" class="table table-hover" width="100%">
     <thead>
       <tr>
@@ -71,6 +89,9 @@
    {% endfor %} 
     </tbody>
   </table>
+
+  </div>
+  
 </div>
 
 

@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
-
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
@@ -117,18 +116,43 @@ def covid_submissions(request):
     sub_url = t_sub_url.objects.raw("""SELECT su.id, su.rootid_id, su.title
                                        FROM libs_t_sub_url su
                                     """)
-    submissions = t_questionnaire.objects.raw("""SELECT q.id,  a.username, q.q1, q.q2, q.q3,
+    # submissions = t_questionnaire.objects.raw("""SELECT q.id,  a.username, q.q1, q.q2, q.q3,
+    #                                              q.q4, q.q4, q.q5, q.q6, q.q7, q.timestamp
+    #                                             FROM auth_user a
+    #                                             INNER JOIN questions_t_questionnaire q ON q.rootid_id = a.id
+    #                                             ORDER BY q.id DESC
+    #                                             """)
+    # paginator = Paginator(submissions, 5)  # Show 25 contacts per page.
+
+    # page_number = request.GET.get('page')
+    # page_obj = paginator.get_page(page_number)
+
+    s = connection.cursor()
+    s.cursor.execute("""SELECT q.id,  a.username, q.q1, q.q2, q.q3,
                                                  q.q4, q.q4, q.q5, q.q6, q.q7, q.timestamp    
                                                 FROM auth_user a
                                                 INNER JOIN questions_t_questionnaire q ON q.rootid_id = a.id
                                                 ORDER BY q.id DESC
-                                                """)
+                            """)
+
+    s = dictfetchall(s)
+    paginator = Paginator(s, 10)  # Show 25 contacts per page
+    page_request_var = "page"
+    page = request.GET.get('page')
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        queryset = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        queryset = paginator.page(paginator.num_pages)
 
     context = {
         "dictionary": dictionary,
         "url": url,
         "sub_url": sub_url,
-        "submissions": submissions,
+        "submissions": queryset,
     }
     template = "libs/covid_submissions.html"
 
