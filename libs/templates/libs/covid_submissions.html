@@ -17,6 +17,7 @@
         <th>Q6</th>
         <th>Q7</th>
         <th>Q8</th>
+        <th>Q9</th>
         <th>Timestamp</th>
       </tr>
     </thead>
@@ -55,11 +56,16 @@
                 {% else %}
                 No<br />
                 {% endif %}</td>
+        <td>{% if rw.q9 %}
+                {{rw.q9}}
+                {% else %}
+                No<br />
+                {% endif %}</td>
         <td>{% if rw.q8 %}
                 {{rw.q8}}
                 {% else %}
                 No<br />
-                {% endif %}</td>
+                {% endif %}</td>        
         <td><a href="#submission{{rw.id}}" data-toggle="modal">{{rw.timestamp}}</a></td>
       </tr>
    {% endfor %} 
