@@ -32,7 +32,7 @@ decorator==4.4.2
 defusedxml==0.6.0
 diff-match-patch==20181111
 divio-cli==3.7.0
-Django==2.0
+Django==2.2.24
 django-absolute==0.3
 django-allauth==0.39.1
 django-appconf==1.0.3
