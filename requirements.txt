@@ -38,7 +38,7 @@ django-allauth==0.39.1
 django-appconf==1.0.3
 django-appdata==0.3.0
 django-classy-tags==1.0.0
-django-cms==3.7.3
+django-cms==3.7.4
 django-cors-headers==3.0.2
 django-crispy-forms==1.9.0
 django-emailit==0.2.4
